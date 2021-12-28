@@ -2,7 +2,6 @@
     composes: pt-10 from global;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; 
     justify-self: end;
     max-height: calc(100vh - 128px);
     max-width: 600px;

@@ -1,34 +1,33 @@
 .container {
     composes: container from '../burger-ingredients/burger-ingredients.module.css';
-    composes: pt-25 pl-4 pr-4 from global;
+    composes: pt-25 pl-4 from global;
+    align-items: flex-end;
     justify-self: start;
-    overflow-y: scroll;
-}
-
-.container::-webkit-scrollbar {
-    width: 8px;
-}
-  
-.container::-webkit-scrollbar-track {
-    background-color: #2F2F37;
-}
-  
-.container::-webkit-scrollbar-thumb {
-    background-color: #8585AD;
 }
 
 .list {
+    composes: pr-4 from global;
+    padding-left: 0; 
     list-style: none;
     height: 100%;
-    margin: 0;
-    padding: 0;
+    margin: 10px 0;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    overflow-y: scroll;
 }
 
-.list div:first-child, .list div:last-child {
-    grid-column: 2;
+.list::-webkit-scrollbar {
+    width: 8px;
+}
+  
+.list::-webkit-scrollbar-track {
+    background-color: #2F2F37;
+}
+  
+.list::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+    height: 80%;
 }
 
 .ingredient {
@@ -36,5 +35,12 @@
     grid-template-columns: 32px 1fr;
     align-items: center;
     justify-items: stretch;
+}
+
+.ingridientWrapper {
+    composes: pl-8 pr-4 from global;
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
 }
 

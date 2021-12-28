@@ -6,18 +6,18 @@ function BurgerConstructor({ingredients}) {
 const bun = ingredients.find(item => item.type === 'bun');
     return (
         <section className={burgerConstructorStyles.container}>
+            <div className={burgerConstructorStyles.ingridientWrapper}>
+                <ConstructorElement
+                    type="top"
+                    isLocked={true}
+                    text={bun.name}
+                    price={bun.price}
+                    thumbnail={bun.image}
+                />
+            </div>
             <ul className={burgerConstructorStyles.list}>
-                <li className={burgerConstructorStyles.ingredient}>
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text={bun.name}
-                        price={bun.price}
-                        thumbnail={bun.image}
-                    />
-                </li>
                 {ingredients.filter(item => item.type === 'main' || item.type === 'sauce').slice(1, ).map((el, index) => (
-                    <li className={burgerConstructorStyles.ingredient} key={el._id}>
+                    <li className={burgerConstructorStyles.ingredient} key={el.id}>
                         <DragIcon type="primary" />
                         <ConstructorElement
                             isLocked={false}
@@ -27,16 +27,16 @@ const bun = ingredients.find(item => item.type === 'bun');
                         />
                     </li>
                 ))}
-                <li className={burgerConstructorStyles.ingredient}>
-                    <ConstructorElement
-                        type="bottom"
-                        isLocked={true}
-                        text={bun.name}
-                        price={bun.price}
-                        thumbnail={bun.image}
-                    />
-                </li>
             </ul>
+            <div className={burgerConstructorStyles.ingridientWrapper}>
+            <ConstructorElement
+                    type="bottom"
+                    isLocked={true}
+                    text={bun.name}
+                    price={bun.price}
+                    thumbnail={bun.image}
+                />
+            </div>
         </section>
     )
 };
