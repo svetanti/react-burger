@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import burgerConstructorStyles from './burger-constructor.module.css'
-import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import {ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 
 function BurgerConstructor({ingredients}) {
 const bun = ingredients.find(item => item.type === 'bun');
@@ -36,6 +36,12 @@ const bun = ingredients.find(item => item.type === 'bun');
                     price={bun.price}
                     thumbnail={bun.image}
                 />
+            </div>
+            <div className={burgerConstructorStyles.totalWrapper}>
+                <p className={burgerConstructorStyles.price}>
+                    <span className='text text_type_digits-medium'>610</span> <CurrencyIcon type="primary" />
+                </p>
+                <Button type="primary" size="medium">Оформить заказ</Button>
             </div>
         </section>
     )

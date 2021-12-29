@@ -2,12 +2,13 @@
     composes: container from '../burger-ingredients/burger-ingredients.module.css';
     composes: pt-25 pl-4 from global;
     align-items: flex-end;
-    justify-self: start;
+    margin-right: auto;
 }
 
 .list {
     composes: pr-4 from global;
     padding-left: 0; 
+    box-sizing: border-box;
     list-style: none;
     height: 100%;
     margin: 10px 0;
@@ -30,13 +31,6 @@
     height: 80%;
 }
 
-.ingredient {
-    display: grid;
-    grid-template-columns: 32px 1fr;
-    align-items: center;
-    justify-items: stretch;
-}
-
 .ingridientWrapper {
     composes: pl-8 pr-4 from global;
     display: flex;
@@ -44,3 +38,32 @@
     box-sizing: border-box;
 }
 
+.ingredient {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    align-items: center;
+    justify-items: stretch;
+}
+
+.totalWrapper {
+    composes: mt-10 from global;
+    margin-bottom: 52px;
+    display: flex;
+    align-items: center;
+    column-gap: 40px;
+}
+
+.price {
+    composes: price from '../burger-ingredients/burger-ingredients.module.css';
+}
+
+.price svg {
+    width: 36px;
+    height: 36px;
+}
+
+@media screen and (max-width: 1024px) {
+    .container {
+        display: none;
+    }
+}

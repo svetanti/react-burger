@@ -8,10 +8,11 @@ import Main from '../main/main';
 
 function App() {
 const [ingredients, setIngredients] = useState(data);
+const [isMenuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className={appStyles.app}>
-      <AppHeader />
+      <AppHeader isMenuOpen={isMenuOpen} />
       <Main>
         <BurgerIngredients ingredients={ingredients} />
         <BurgerConstructor ingredients={ingredients} />

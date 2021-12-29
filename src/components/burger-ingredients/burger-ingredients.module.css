@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     justify-self: end;
-    max-height: calc(100vh - 128px);
+    max-height: calc(100vh - 88px);
     max-width: 600px;
     box-sizing: border-box;
 }
@@ -29,7 +29,7 @@
     list-style: none;
     height: 100%;
     margin: 0;
-    padding: 0;
+    padding-left: 0;
     overflow-y: scroll;
 }
 
@@ -65,7 +65,7 @@
 }
 
 .image {
-    composes: mr-4 ml-4 from global;
+    width: calc(100% - 32px);    
 }
 
 .price {
@@ -78,4 +78,59 @@
 
 .text {
     height: 48px;
+}
+
+.totalWrapper {
+    display: none;
+}
+
+@media screen and (max-width: 1280px) {
+    .container {  
+        max-width: calc(100% - 40px);
+    }
+    
+    .tabs {
+        width: 100%;
+    }
+
+    .tabs div {
+        width: calc(100% / 3);
+        padding: 16px 0;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .container {  
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .list {
+        width: calc(100% - 16px);
+    }
+
+    .list::-webkit-scrollbar {
+        display: none;
+    }
+      
+    .list::-webkit-scrollbar-track {
+        display: none;
+    }
+      
+    .list::-webkit-scrollbar-thumb {
+        display: none;
+    }
+    
+    .totalWrapper {
+        composes: pt-4 pb-4 pl-2 pr-2 from global;
+        display: flex;
+        background-color: #1C1C21;
+        justify-content: flex-end;
+        column-gap: 16px;
+    }
+
+    .totalWrapper svg {
+        width: 36px;
+        height: 36px;
+    }
 }

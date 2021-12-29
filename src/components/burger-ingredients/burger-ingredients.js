@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Tab, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { BurgerIngredientsBlock } from './burger-ingridients-block';
 
@@ -25,6 +25,12 @@ function BurgerIngredients({ingredients}) {
                 <BurgerIngredientsBlock ingredients={ingredients} type='sauce' name='Соусы' />
                 <BurgerIngredientsBlock ingredients={ingredients} type='main' name='Начинки' />
             </ul>
+            <div className={burgerIngredientsStyles.totalWrapper}>
+            <p className={burgerIngredientsStyles.price}>
+                    <span className='text text_type_digits-medium'>610</span> <CurrencyIcon type="primary" />
+                </p>
+                <Button type="primary" size="medium">Оформить заказ</Button>
+            </div>
         </section>
     )
 };
