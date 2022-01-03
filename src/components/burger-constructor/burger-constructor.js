@@ -2,18 +2,19 @@ import PropTypes from 'prop-types';
 import burgerConstructorStyles from './burger-constructor.module.css'
 import {ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 
-function BurgerConstructor({ingredients}) {
-const bun = ingredients.find(item => item.type === 'bun');
+function BurgerConstructor({ingredients, onModalOpen}) {
+const bun = ingredients && ingredients.find(item => item.type === 'bun');
     return (
         <section className={burgerConstructorStyles.container}>
             <div className={burgerConstructorStyles.ingridientWrapper}>
+                {bun && (
                 <ConstructorElement
                     type="top"
                     isLocked={true}
                     text={bun.name}
                     price={bun.price}
                     thumbnail={bun.image}
-                />
+                />)}          
             </div>
             <ul className={burgerConstructorStyles.list}>
                 {ingredients.filter(item => item.type === 'main' || item.type === 'sauce').slice(1, ).map((el, index) => (
@@ -29,19 +30,19 @@ const bun = ingredients.find(item => item.type === 'bun');
                 ))}
             </ul>
             <div className={burgerConstructorStyles.ingridientWrapper}>
-            <ConstructorElement
+            {bun && (<ConstructorElement
                     type="bottom"
                     isLocked={true}
                     text={bun.name}
                     price={bun.price}
                     thumbnail={bun.image}
-                />
+                />)}
             </div>
             <div className={burgerConstructorStyles.totalWrapper}>
                 <p className={burgerConstructorStyles.price}>
                     <span className='text text_type_digits-medium'>610</span> <CurrencyIcon type="primary" />
                 </p>
-                <Button type="primary" size="medium">Оформить заказ</Button>
+                <Button type="primary" size="medium" onClick={onModalOpen}>Оформить заказ</Button>
             </div>
         </section>
     )
@@ -62,7 +63,8 @@ BurgerConstructor.propTypes = {
         "image_large": PropTypes.string.isRequired,
         "__v": PropTypes.number.isRequired
      })
-    )
+    ),
+    onModalOpen: PropTypes.func.isRequired
 };
 
 export default BurgerConstructor;

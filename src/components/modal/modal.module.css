@@ -1,0 +1,17 @@
+.wrapper {
+    background-color: #1C1C21;
+    border: 1px solid #4C4CFF33;
+    border-radius: 40px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.header {
+    composes: pt-10 pl-10 pr-10 from global;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 60px;
+}

@@ -2,9 +2,9 @@ import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-com
 import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 
-export function BurgerIngredientsBlock({ingredients, type, name}) {
+export function BurgerIngredientsBlock({ingredients, type, name, onClick}) {
     return (
-    <li>
+    <li onClick={onClick}>
         <h2 className='text text_type_main-medium text_color_primary'>{name}</h2>
             <div className={burgerIngredientsStyles.grid}>
                 {
@@ -39,5 +39,6 @@ BurgerIngredientsBlock.propTypes = {
      })
     ),
     type: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired
 };
