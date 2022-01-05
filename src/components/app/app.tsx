@@ -7,11 +7,15 @@ import Main from '../main/main';
 import { API_URL } from '../../constants/constants';
 import Modal from '../modal/modal';
 import ModalOverlay from '../modal-overlay/modal.overlay';
+import OrderDetails from '../order-details/order-details';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 function App() {
-const [ingredients, setIngredients] = useState([]);
+const [ingredients, setIngredients] = useState([] as any[]);
 const [isMenuOpen, setIsMenuOpen] = useState(false);
 const [isModalOpen, setIsModalOpen] = useState(false);
+const [currentModal, setCurrentModal] = useState('');
+const [currentIngredient, setCurrentIngredient] = useState({});
 
 useEffect(() => {
   fetch(API_URL)
@@ -43,14 +47,18 @@ useEffect(() => {
     };
   }, []);
 
-const openIngredientDetails = () => {
-  console.log('Кря!');
+const openIngredientDetails = (id: string) => {
+  if (ingredients) {
+    setCurrentIngredient(ingredients.find(item => item._id === id));
+  }
   setIsModalOpen(true);
+  setCurrentModal('ingredientDetails');
 };
 
 const openOrderDetails = () => {
-  console.log('Кар!');
-}
+  setIsModalOpen(true);
+  setCurrentModal('orderDetails');
+};
 
 const closeModal = () => {
   setIsModalOpen(false);
@@ -66,13 +74,16 @@ const closeModal = () => {
       {isModalOpen && (
         <>
           <ModalOverlay onClose={closeModal}/>
-          <Modal onClose={closeModal}>
-            <div></div>
+          <Modal onClose={closeModal} header={currentModal === 'ingredientDetails' ? 'Детали ингредиента' : ''}>
+            { currentModal === 'ingredientDetails' 
+            ? <IngredientDetails ingredient={currentIngredient} />
+            : <OrderDetails />
+            }
           </Modal>
         </>
       )}
     </div>
   );
-}
+};
 
 export default App;

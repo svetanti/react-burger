@@ -3,13 +3,17 @@ import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 
 export function BurgerIngredientsBlock({ingredients, type, name, onClick}) {
+    const handleClick = (e) => {
+        onClick(e.currentTarget.id);
+    };
+
     return (
-    <li onClick={onClick}>
+    <li>
         <h2 className='text text_type_main-medium text_color_primary'>{name}</h2>
             <div className={burgerIngredientsStyles.grid}>
                 {
                     ingredients.filter(item => item.type === type).map((el, index) => (
-                        <div className={burgerIngredientsStyles.item} key={el._id}>
+                        <div className={burgerIngredientsStyles.item} key={el._id} id={el._id} onClick={handleClick}>
                             <Counter count={1} size="default" />
                             <img src={el.image} className={burgerIngredientsStyles.image} alt={el.name} />
                             <p className={burgerIngredientsStyles.price}>

@@ -1,0 +1,47 @@
+.done {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.done svg {
+    width: 48px;
+    height: 48px;
+    transform: scale(0);
+    animation: grow 1.5s infinite steps(2, jump-end);
+}
+
+.icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    animation: growWithRotate 1.5s infinite ease;
+}
+
+@keyframes growWithRotate {
+    0% {
+        transform: translate(-50%, -50%) scale(0.1);
+    }
+    50% {
+        transform: translate(-50%, -50%) rotate(45deg) scale(1);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(90deg);
+    }
+}
+
+@keyframes grow {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(2);
+    }
+}
