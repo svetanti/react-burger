@@ -4,7 +4,7 @@ import { Tab, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { BurgerIngredientsBlock } from './burger-ingridients-block';
 
-function BurgerIngredients({ingredients, onModalOpen}) {
+function BurgerIngredients({ingredients, onModalOpen, onOpenConstructor}) {
     const [current, setCurrent] = React.useState('Булки');
     return (
         <section className={burgerIngredientsStyles.container}>
@@ -29,7 +29,7 @@ function BurgerIngredients({ingredients, onModalOpen}) {
             <p className={burgerIngredientsStyles.price}>
                     <span className='text text_type_digits-medium'>610</span> <CurrencyIcon type="primary" />
                 </p>
-                <Button type="primary" size="medium">Оформить заказ</Button>
+                <Button type="primary" size="medium" onClick={onOpenConstructor}>Оформить заказ</Button>
             </div>
         </section>
     )
@@ -51,7 +51,8 @@ burgerIngredientsStyles.propTypes = {
         "__v": PropTypes.number.isRequired
      })
     ),
-    onModalOpen: PropTypes.func.isRequired
+    onModalOpen: PropTypes.func.isRequired,
+    onOpenConstructor: PropTypes.func.isRequired
 }
 
 export default BurgerIngredients;

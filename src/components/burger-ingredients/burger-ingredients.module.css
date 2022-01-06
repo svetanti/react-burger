@@ -69,7 +69,7 @@
 }
 
 .price {
-    composes: mt-1 mb-1 from global;
+    composes: mt-1 mb-1 text text_type_digits-default from global;
     display: flex;
     align-items: center;
     justify-content: center;

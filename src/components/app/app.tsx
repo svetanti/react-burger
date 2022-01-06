@@ -16,6 +16,20 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [currentModal, setCurrentModal] = useState('');
 const [currentIngredient, setCurrentIngredient] = useState({});
+const [width, setWidth] = useState<number>(window.innerWidth);
+const isTablet = width <= 1024;
+const [isConstructorOpened, setIsConstructorOpened] = useState(false);
+
+const handleWindowSizeChange = () => {
+    setWidth(window.innerWidth);
+};
+
+useEffect(() => {
+    window.addEventListener('resize', handleWindowSizeChange);
+    return () => {
+        window.removeEventListener('resize', handleWindowSizeChange);
+    }
+}, []);
 
 useEffect(() => {
   fetch(API_URL)
@@ -64,26 +78,38 @@ const closeModal = () => {
   setIsModalOpen(false);
 };
 
-  return (
-    <div className={appStyles.app}>
-      <AppHeader isMenuOpen={isMenuOpen} />
-      <Main>
-        <BurgerIngredients ingredients={ingredients} onModalOpen={openIngredientDetails}/>
-        <BurgerConstructor ingredients={ingredients} onModalOpen={openOrderDetails} />
-      </Main>
-      {isModalOpen && (
-        <>
-          <ModalOverlay onClose={closeModal}/>
-          <Modal onClose={closeModal} header={currentModal === 'ingredientDetails' ? 'Детали ингредиента' : ''}>
-            { currentModal === 'ingredientDetails' 
-            ? <IngredientDetails ingredient={currentIngredient} />
-            : <OrderDetails />
-            }
-          </Modal>
-        </>
-      )}
-    </div>
-  );
+const openConstructor = () => {
+  setIsConstructorOpened(true);
 };
+
+const closeConstructor = () => {
+  setIsConstructorOpened(false);
+};
+
+return (
+  <div className={appStyles.app}>
+    <AppHeader isMenuOpen={isMenuOpen} />
+    <Main>
+      <BurgerIngredients ingredients={ingredients} onModalOpen={openIngredientDetails} onOpenConstructor={openConstructor}/>
+      <BurgerConstructor 
+        ingredients={ingredients}
+        onModalOpen={openOrderDetails}
+        isTablet={isTablet}
+        isConstructorOpened={isConstructorOpened}
+        onCloseConstructor={closeConstructor} />
+    </Main>
+    {isModalOpen && (
+      <>
+        <ModalOverlay onClose={closeModal}/>
+        <Modal onClose={closeModal} header={currentModal === 'ingredientDetails' ? 'Детали ингредиента' : ''}>
+          { currentModal === 'ingredientDetails' 
+          ? <IngredientDetails ingredient={currentIngredient} />
+          : <OrderDetails />
+          }
+        </Modal>
+      </>
+    )}
+  </div>
+)};
 
 export default App;

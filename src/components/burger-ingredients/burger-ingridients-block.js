@@ -17,7 +17,7 @@ export function BurgerIngredientsBlock({ingredients, type, name, onClick}) {
                             <Counter count={1} size="default" />
                             <img src={el.image} className={burgerIngredientsStyles.image} alt={el.name} />
                             <p className={burgerIngredientsStyles.price}>
-                                <span className='text text_type_digits-default'>{el.price}</span> <CurrencyIcon type="primary" />
+                                <span>{el.price}</span> <CurrencyIcon type="primary" />
                             </p>
                             <p className={`${burgerIngredientsStyles.text} text text_type_main-default`}>{el.name}</p>
                         </div>
