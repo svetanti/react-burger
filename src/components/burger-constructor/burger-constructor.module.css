@@ -1,136 +1,137 @@
 .container {
-    composes: container from '../burger-ingredients/burger-ingredients.module.css';
-    composes: pt-25 pl-4 from global;
-    align-items: flex-end;
-    margin-right: auto;
+  composes: container from "../burger-ingredients/burger-ingredients.module.css";
+  composes: pt-25 pl-4 from global;
+  align-items: flex-end;
+  margin-right: auto;
 }
 
 .list {
-    composes: pr-4 from global;
-    padding-left: 0; 
-    box-sizing: border-box;
-    list-style: none;
-    height: 100%;
-    margin: 10px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow-y: scroll;
+  composes: pr-4 from global;
+  padding-left: 0;
+  box-sizing: border-box;
+  list-style: none;
+  height: 100%;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: scroll;
 }
 
 .list::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
-  
+
 .list::-webkit-scrollbar-track {
-    background-color: #2F2F37;
+  background-color: #2f2f37;
 }
-  
+
 .list::-webkit-scrollbar-thumb {
-    background-color: #8585AD;
-    height: 80%;
+  background-color: #8585ad;
+  height: 80%;
 }
 
 .ingridientWrapper {
-    composes: pl-8 pr-4 from global;
-    display: flex;
-    width: 100%;
-    box-sizing: border-box;
+  composes: pl-8 pr-4 from global;
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .ingredient {
-    display: grid;
-    grid-template-columns: 32px 1fr;
-    align-items: center;
-    justify-items: stretch;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  align-items: center;
+  justify-items: stretch;
 }
 
 .totalWrapper {
-    composes: mt-10 from global;
-    margin-bottom: 52px;
-    display: flex;
-    align-items: center;
-    column-gap: 40px;
+  composes: mt-10 from global;
+  margin-bottom: 52px;
+  display: flex;
+  align-items: center;
+  column-gap: 40px;
 }
 
 .price {
-    composes: price from '../burger-ingredients/burger-ingredients.module.css';
+  composes: text text_type_digits-medium from global;
+  composes: price from "../burger-ingredients/burger-ingredients.module.css";
 }
 
 .price svg {
-    width: 36px;
-    height: 36px;
+  width: 36px;
+  height: 36px;
 }
 
 @media screen and (max-width: 1024px) {
-    .container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        background-color: #131316;
-        max-height: 100vh;
-        padding: 0;
-    }
+  .container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #131316;
+    max-height: 100vh;
+    padding: 0;
+  }
 
-    .mobileWrapper {
-        composes: pl-3 pr-3 from global;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        box-sizing: border-box;
-    }
+  .mobileWrapper {
+    composes: pl-3 pr-3 from global;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
 
-    .ingredientContent {
-        composes: pt-4 pb-4 from global;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        box-sizing: border-box;
-        box-shadow: inset 0px -1px 0px #2F2F37;
-    }
+  .ingredientContent {
+    composes: pt-4 pb-4 from global;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: inset 0px -1px 0px #2f2f37;
+  }
 
-    .img {
-        max-width: 20%;
-        object-fit: cover;
-    }
+  .img {
+    max-width: 20%;
+    object-fit: cover;
+  }
 
-    .text {
-        composes: text text_type_main-small from global;
-    }
+  .text {
+    composes: text text_type_main-small from global;
+  }
 
-    .price {
-        margin-left: auto;
-    }
+  .price {
+    margin-left: auto;
+  }
 
-    .list {
-        width: 100%;
-        padding: 0;
-        margin: 0;
-    }
+  .list {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
 
-    .list::-webkit-scrollbar {
-        width: 0
-    }
+  .list::-webkit-scrollbar {
+    width: 0;
+  }
 
-    .ingredient {
-        display: flex;
-        padding: 0;
-    }
+  .ingredient {
+    display: flex;
+    padding: 0;
+  }
 
-    .totalWrapper {
-        composes: pr-2 pl-2 from global;
-        width: 100%;
-        box-sizing: border-box;
-    }
+  .totalWrapper {
+    composes: pr-2 pl-2 from global;
+    width: 100%;
+    box-sizing: border-box;
+  }
 
-    .mobilePanel {
-        composes: text text_type_main-medium pl-2 pr-2 pt-4 pb-4 from global;
-        font-size: 28px;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-sizing: border-box;
-    }
+  .mobilePanel {
+    composes: text text_type_main-medium pl-2 pr-2 pt-4 pb-4 from global;
+    font-size: 28px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
 }
