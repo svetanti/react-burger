@@ -17,7 +17,7 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentModal, setCurrentModal] = useState('');
   const [currentIngredient, setCurrentIngredient] = useState({});
-  const [width, setWidth] = useState<number>(window.innerWidth);
+  const [width, setWidth] = useState(window.innerWidth);
   const isTablet = width <= 1024;
   const [isConstructorOpened, setIsConstructorOpened] = useState(!isTablet);
   let headerText;
@@ -80,19 +80,6 @@ function App() {
         setIngredients(data.data);
       })
       .catch((err) => console.log(err));
-  }, []);
-
-  useEffect(() => {
-    function closeOnEsc(e: { key: string; }) {
-      if (e.key === 'Escape' || e.key === 'Esc') {
-        closeModal();
-      }
-    }
-    document.addEventListener('keyup', closeOnEsc);
-
-    return () => {
-      document.removeEventListener('keyup', closeOnEsc);
-    };
   }, []);
 
   return (

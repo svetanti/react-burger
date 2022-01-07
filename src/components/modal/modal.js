@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
@@ -6,16 +6,31 @@ import modalStyles from './modal.module.css';
 
 const modalRoot = document.getElementById('react-modals');
 
-const Modal = ({ header, children, onClose }) => ReactDOM.createPortal(
-  <div className={modalStyles.wrapper}>
-    <div className={modalStyles.header}>
-      <h3 className={modalStyles.title}>{header}</h3>
-      <CloseIcon type="primary" onClick={onClose} />
-    </div>
-    {children}
-  </div>,
-  modalRoot,
-);
+const Modal = ({ header, children, onClose }) => {
+  useEffect(() => {
+    function closeOnEsc(e) {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        onClose();
+      }
+    }
+    document.addEventListener('keyup', closeOnEsc);
+
+    return () => {
+      document.removeEventListener('keyup', closeOnEsc);
+    };
+  }, []);
+
+  return ReactDOM.createPortal(
+    <div className={modalStyles.wrapper}>
+      <div className={modalStyles.header}>
+        <h3 className={modalStyles.title}>{header}</h3>
+        <CloseIcon type="primary" onClick={onClose} />
+      </div>
+      {children}
+    </div>,
+    modalRoot,
+  );
+};
 
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
