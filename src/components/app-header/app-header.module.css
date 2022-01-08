@@ -13,10 +13,6 @@
   box-sizing: border-box;
 }
 
-.mobileLogo {
-  display: none;
-}
-
 .nav {
   display: flex;
   margin-right: auto;
@@ -48,17 +44,5 @@
     max-width: calc(100% - 20px);
     display: flex;
     justify-content: space-between;
-  }
-
-  .logo {
-    display: none;
-  }
-
-  .nav {
-    display: none;
-  }
-
-  .button {
-    display: none;
   }
 }

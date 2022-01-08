@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -13,7 +12,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 
 function App() {
   const [ingredients, setIngredients] = useState([] as any[]);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentModal, setCurrentModal] = useState('');
   const [currentIngredient, setCurrentIngredient] = useState({});
@@ -84,7 +83,7 @@ function App() {
 
   return (
     <div className={appStyles.app}>
-      <AppHeader isMenuOpen={isMenuOpen} />
+      <AppHeader isMenuOpen={isMenuOpen} isTablet={isTablet} />
       <Main>
         <BurgerIngredients
           ingredients={ingredients}
