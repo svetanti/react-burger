@@ -4,7 +4,9 @@ import { Tab, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import BurgerIngredientsBlock from './burger-ingridients-block';
 
-function BurgerIngredients({ ingredients, onModalOpen, onOpenConstructor }) {
+function BurgerIngredients({
+  ingredients, onModalOpen, onOpenConstructor, isTablet,
+}) {
   const [current, setCurrent] = React.useState('Булки');
   return (
     <section className={burgerIngredientsStyles.container}>
@@ -25,13 +27,15 @@ function BurgerIngredients({ ingredients, onModalOpen, onOpenConstructor }) {
         <BurgerIngredientsBlock ingredients={ingredients} type="sauce" name="Соусы" onClick={onModalOpen} />
         <BurgerIngredientsBlock ingredients={ingredients} type="main" name="Начинки" onClick={onModalOpen} />
       </ul>
-      <div className={burgerIngredientsStyles.totalWrapper}>
-        <p className={burgerIngredientsStyles.price}>
-          <span>610</span>
-          <CurrencyIcon type="primary" />
-        </p>
-        <Button type="primary" size="medium" onClick={onOpenConstructor}>Оформить заказ</Button>
-      </div>
+      {isTablet && (
+        <div className={burgerIngredientsStyles.totalWrapper}>
+          <p className={burgerIngredientsStyles.price}>
+            <span>610</span>
+            <CurrencyIcon type="primary" />
+          </p>
+          <Button type="primary" size="medium" onClick={onOpenConstructor}>Оформить заказ</Button>
+        </div>
+      )}
     </section>
   );
 }
@@ -53,6 +57,7 @@ BurgerIngredients.propTypes = {
   })).isRequired,
   onModalOpen: PropTypes.func.isRequired,
   onOpenConstructor: PropTypes.func.isRequired,
+  isTablet: PropTypes.bool.isRequired,
 };
 
 export default BurgerIngredients;

@@ -4,7 +4,7 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import appStyles from './app.module.css';
 import Main from '../main/main';
-import { API_URL } from '../../constants/constants';
+import API_URL from '../../constants/constants';
 import Modal from '../modal/modal';
 import ModalOverlay from '../modal-overlay/modal.overlay';
 import OrderDetails from '../order-details/order-details';
@@ -83,6 +83,7 @@ function App() {
           ingredients={ingredients}
           onModalOpen={openIngredientDetails}
           onOpenConstructor={openConstructor}
+          isTablet={isTablet}
         />
         { isConstructorOpened && (
         <BurgerConstructor
