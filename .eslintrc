@@ -20,9 +20,10 @@
       "@typescript-eslint"
   ],
   "rules": {
-      "no-extraneous-dependencies": "off",
-      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx", ".ts"] }],
-      "no-console": "off",
+    "no-extraneous-dependencies": "off",
+    "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx", ".ts"] }],
+    "no-console": "off",
     "no-underscore-dangle": [
       "error",
       {
@@ -37,6 +38,7 @@
       "error",
       "never"
     ],
+    "consistent-return": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -52,8 +54,8 @@
     "import/resolver": {
         "node": {
             "extensions": [".js", ".jsx", ".ts", ".tsx"],
-            "moduleDirectory": ["node_modules", "src/"],
-        },
-    },
+            "moduleDirectory": ["node_modules", "src/"]
+        }
+    }
 }
 }

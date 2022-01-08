@@ -90,7 +90,6 @@
 }
 
 .totalWrapper {
-  display: none;
 }
 
 @media screen and (max-width: 1280px) {
@@ -119,15 +118,12 @@
   }
 
   .list::-webkit-scrollbar {
-    display: none;
   }
 
   .list::-webkit-scrollbar-track {
-    display: none;
   }
 
   .list::-webkit-scrollbar-thumb {
-    display: none;
   }
 
   .totalWrapper {

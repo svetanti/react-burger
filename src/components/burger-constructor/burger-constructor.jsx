@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -8,74 +7,68 @@ import burgerConstructorStyles from './burger-constructor.module.css';
 import BurgerConstructorMobile from './burger-constructor-mobile';
 
 function BurgerConstructor({
-  ingredients, onModalOpen, isTablet, isConstructorOpened, onCloseConstructor,
+  ingredients, onModalOpen, isTablet, onCloseConstructor,
 }) {
   const bun = ingredients && ingredients.find((item) => item.type === 'bun');
   return (
-    <>
-      { isConstructorOpened
+    <section className={burgerConstructorStyles.container}>
+      { isTablet
         ? (
-          <section className={burgerConstructorStyles.container}>
-            { isTablet
-              ? (
-                <>
-                  <div className={burgerConstructorStyles.mobilePanel}>
-                    <span>Заказ</span>
-                    <CloseIcon onClick={onCloseConstructor} />
-                  </div>
-                  <BurgerConstructorMobile ingredients={ingredients} />
-                </>
-              )
-              : (
-                <>
-                  <div className={burgerConstructorStyles.ingridientWrapper}>
-                    {bun && (
-                      <ConstructorElement
-                        type="top"
-                        isLocked
-                        text={bun.name}
-                        price={bun.price}
-                        thumbnail={bun.image}
-                      />
-                    )}
-                  </div>
-                  <ul className={burgerConstructorStyles.list}>
-                    {ingredients.filter((item) => item.type === 'main' || item.type === 'sauce').slice(1).map((el) => (
-                      <li className={burgerConstructorStyles.ingredient} key={el.id}>
-                        <DragIcon type="primary" />
-                        <ConstructorElement
-                          isLocked={false}
-                          text={el.name}
-                          price={el.price}
-                          thumbnail={el.image}
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                  <div className={burgerConstructorStyles.ingridientWrapper}>
-                    {bun && (
-                      <ConstructorElement
-                        type="bottom"
-                        isLocked
-                        text={bun.name}
-                        price={bun.price}
-                        thumbnail={bun.image}
-                      />
-                    )}
-                  </div>
-                </>
-              )}
-            <div className={burgerConstructorStyles.totalWrapper}>
-              <p className={burgerConstructorStyles.price}>
-                <span>610</span>
-                <CurrencyIcon type="primary" />
-              </p>
-              <Button type="primary" size="medium" onClick={onModalOpen}>{isTablet ? 'Заказать' : 'Оформить заказ'}</Button>
+          <>
+            <div className={burgerConstructorStyles.mobilePanel}>
+              <span>Заказ</span>
+              <CloseIcon onClick={onCloseConstructor} />
             </div>
-          </section>
+            <BurgerConstructorMobile ingredients={ingredients} />
+          </>
         )
-        : <></>}
-    </>
+        : (
+          <>
+            <div className={burgerConstructorStyles.ingridientWrapper}>
+              {bun && (
+                <ConstructorElement
+                  type="top"
+                  isLocked
+                  text={bun.name}
+                  price={bun.price}
+                  thumbnail={bun.image}
+                />
+              )}
+            </div>
+            <ul className={burgerConstructorStyles.list}>
+              {ingredients.filter((item) => item.type === 'main' || item.type === 'sauce').slice(1).map((el) => (
+                <li className={burgerConstructorStyles.ingredient} key={el.id}>
+                  <DragIcon type="primary" />
+                  <ConstructorElement
+                    isLocked={false}
+                    text={el.name}
+                    price={el.price}
+                    thumbnail={el.image}
+                  />
+                </li>
+              ))}
+            </ul>
+            <div className={burgerConstructorStyles.ingridientWrapper}>
+              {bun && (
+                <ConstructorElement
+                  type="bottom"
+                  isLocked
+                  text={bun.name}
+                  price={bun.price}
+                  thumbnail={bun.image}
+                />
+              )}
+            </div>
+          </>
+        )}
+      <div className={burgerConstructorStyles.totalWrapper}>
+        <p className={burgerConstructorStyles.price}>
+          <span>610</span>
+          <CurrencyIcon type="primary" />
+        </p>
+        <Button type="primary" size="medium" onClick={onModalOpen}>{isTablet ? 'Заказать' : 'Оформить заказ'}</Button>
+      </div>
+    </section>
   );
 }
 
@@ -96,7 +89,6 @@ BurgerConstructor.propTypes = {
   })).isRequired,
   onModalOpen: PropTypes.func.isRequired,
   isTablet: PropTypes.bool.isRequired,
-  isConstructorOpened: PropTypes.bool.isRequired,
   onCloseConstructor: PropTypes.func.isRequired,
 };
 

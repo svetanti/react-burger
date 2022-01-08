@@ -9,6 +9,7 @@ import Modal from '../modal/modal';
 import ModalOverlay from '../modal-overlay/modal.overlay';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import useWindowSize from '../../hooks/useWindowSize';
 
 function App() {
   const [ingredients, setIngredients] = useState([] as any[]);
@@ -16,9 +17,9 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentModal, setCurrentModal] = useState('');
   const [currentIngredient, setCurrentIngredient] = useState({});
-  const [width, setWidth] = useState(window.innerWidth);
+  const { width } = useWindowSize();
   const isTablet = width <= 1024;
-  const [isConstructorOpened, setIsConstructorOpened] = useState(!isTablet);
+  const [isConstructorOpened, setIsConstructorOpened] = useState(true);
   let headerText;
   if (currentModal === 'ingredientDetails') {
     headerText = 'Детали ингредиента';
@@ -27,10 +28,6 @@ function App() {
   } else {
     headerText = '';
   }
-
-  const handleWindowSizeChange = () => {
-    setWidth(window.innerWidth);
-  };
 
   const openIngredientDetails = (id: string) => {
     if (ingredients) {
@@ -58,13 +55,6 @@ function App() {
   };
 
   useEffect(() => {
-    window.addEventListener('resize', handleWindowSizeChange);
-    return () => {
-      window.removeEventListener('resize', handleWindowSizeChange);
-    };
-  }, []);
-
-  useEffect(() => {
     fetch(API_URL)
       .then((res) => {
         if (!res.ok) {
@@ -81,6 +71,10 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {
+    setIsConstructorOpened(!isTablet);
+  }, [isTablet]);
+
   return (
     <div className={appStyles.app}>
       <AppHeader isMenuOpen={isMenuOpen} isTablet={isTablet} />
@@ -90,13 +84,14 @@ function App() {
           onModalOpen={openIngredientDetails}
           onOpenConstructor={openConstructor}
         />
+        { isConstructorOpened && (
         <BurgerConstructor
           ingredients={ingredients}
           onModalOpen={openOrderDetails}
           isTablet={isTablet}
-          isConstructorOpened={isConstructorOpened}
           onCloseConstructor={closeConstructor}
         />
+        )}
       </Main>
       {isModalOpen && (
       <>
