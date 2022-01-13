@@ -1,0 +1,35 @@
+.wrapper {
+  composes: pl-25 pr-25 pb-30 pt-4 from global;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.number {
+  composes: text_type_digits-large mb-8 from global;
+  margin-top: 0;
+}
+
+.subtitle {
+  composes: text_type_main-medium mb-15 from global;
+  margin-top: 0;
+}
+
+.text {
+  composes: text_type_main-default mt-15 mb-2 from global;
+}
+
+.subtext {
+  composes: text text_type_main-default text_color_inactive from global;
+}
+
+@media screen and (max-width: 768px) {
+  .number {
+    font-size: 72px;
+    color: #4c4cff;
+    text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25),
+      0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+  }
+}
