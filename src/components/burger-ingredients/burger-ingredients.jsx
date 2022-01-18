@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import BurgerIngredientsBlock from './burger-ingridients-block';
 
 function BurgerIngredients({
-  ingredients, onModalOpen, onOpenConstructor, isTablet,
+  onModalOpen, onOpenConstructor, isTablet,
 }) {
-  const [current, setCurrent] = React.useState('Булки');
+  const [current, setCurrent] = useState('Булки');
   return (
     <section className={burgerIngredientsStyles.container}>
       <h1 className={burgerIngredientsStyles.title}>Соберите бургер</h1>
@@ -23,9 +23,9 @@ function BurgerIngredients({
         </Tab>
       </div>
       <ul className={burgerIngredientsStyles.list}>
-        <BurgerIngredientsBlock ingredients={ingredients} type="bun" name="Булки" onClick={onModalOpen} />
-        <BurgerIngredientsBlock ingredients={ingredients} type="sauce" name="Соусы" onClick={onModalOpen} />
-        <BurgerIngredientsBlock ingredients={ingredients} type="main" name="Начинки" onClick={onModalOpen} />
+        <BurgerIngredientsBlock type="bun" name="Булки" onClick={onModalOpen} />
+        <BurgerIngredientsBlock type="sauce" name="Соусы" onClick={onModalOpen} />
+        <BurgerIngredientsBlock type="main" name="Начинки" onClick={onModalOpen} />
       </ul>
       {isTablet && (
         <div className={burgerIngredientsStyles.totalWrapper}>
@@ -41,20 +41,6 @@ function BurgerIngredients({
 }
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    __v: PropTypes.number.isRequired,
-  })).isRequired,
   onModalOpen: PropTypes.func.isRequired,
   onOpenConstructor: PropTypes.func.isRequired,
   isTablet: PropTypes.bool.isRequired,

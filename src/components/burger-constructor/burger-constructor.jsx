@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   ConstructorElement, DragIcon, CurrencyIcon, Button, CloseIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import BurgerConstructorMobile from './burger-constructor-mobile';
+import IngredientsContext from '../../contexts/ingredients-context';
 
 function BurgerConstructor({
-  ingredients, onModalOpen, isTablet, onCloseConstructor,
+  onModalOpen, isTablet, onCloseConstructor,
 }) {
+  const ingredients = useContext(IngredientsContext);
   const bun = ingredients && ingredients.find((item) => item.type === 'bun');
   return (
     <section className={burgerConstructorStyles.container}>
@@ -73,20 +75,6 @@ function BurgerConstructor({
 }
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    __v: PropTypes.number.isRequired,
-  })).isRequired,
   onModalOpen: PropTypes.func.isRequired,
   isTablet: PropTypes.bool.isRequired,
   onCloseConstructor: PropTypes.func.isRequired,

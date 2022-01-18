@@ -10,9 +10,10 @@ import ModalOverlay from '../modal-overlay/modal.overlay';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import useWindowSize from '../../hooks/useWindowSize';
+import IngredientsContext from '../../contexts/ingredients-context';
 
 function App() {
-  const [ingredients, setIngredients] = useState([] as any[]);
+  const [ingredients, setIngredients] = useState([]);
   const [isMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentModal, setCurrentModal] = useState('');
@@ -29,7 +30,7 @@ function App() {
     headerText = '';
   }
 
-  const openIngredientDetails = (id: string) => {
+  const openIngredientDetails = (id) => {
     if (ingredients) {
       setCurrentIngredient(ingredients.find((item) => item._id === id));
     }
@@ -79,20 +80,20 @@ function App() {
     <div className={appStyles.app}>
       <AppHeader isMenuOpen={isMenuOpen} isTablet={isTablet} />
       <Main>
-        <BurgerIngredients
-          ingredients={ingredients}
-          onModalOpen={openIngredientDetails}
-          onOpenConstructor={openConstructor}
-          isTablet={isTablet}
-        />
-        { isConstructorOpened && (
-        <BurgerConstructor
-          ingredients={ingredients}
-          onModalOpen={openOrderDetails}
-          isTablet={isTablet}
-          onCloseConstructor={closeConstructor}
-        />
-        )}
+        <IngredientsContext.Provider value={ingredients}>
+          <BurgerIngredients
+            onModalOpen={openIngredientDetails}
+            onOpenConstructor={openConstructor}
+            isTablet={isTablet}
+          />
+          { isConstructorOpened && (
+          <BurgerConstructor
+            onModalOpen={openOrderDetails}
+            isTablet={isTablet}
+            onCloseConstructor={closeConstructor}
+          />
+          )}
+        </IngredientsContext.Provider>
       </Main>
       {isModalOpen && (
       <>
