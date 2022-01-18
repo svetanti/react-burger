@@ -14,7 +14,7 @@ const initialConstructorState = {
 };
 
 function BurgerConstructor({
-  onModalOpen, isTablet, onCloseConstructor,
+  onOrder, isTablet, onCloseConstructor,
 }) {
   const ingredients = useContext(IngredientsContext);
 
@@ -46,6 +46,12 @@ function BurgerConstructor({
     constructorStateDispatcher({ type: 'initiate' });
     constructorStateDispatcher({ type: 'count' });
   }, [ingredients]);
+
+  const handleOrder = () => {
+    const orderData = [constructorState.bun, ...constructorState.burgerIngredients]
+      .map((item) => item._id);
+    onOrder(orderData);
+  };
 
   return (
     <section className={burgerConstructorStyles.container}>
@@ -103,14 +109,14 @@ function BurgerConstructor({
           <span>{constructorState.totalPrice}</span>
           <CurrencyIcon type="primary" />
         </p>
-        <Button type="primary" size="medium" onClick={onModalOpen}>{isTablet ? 'Заказать' : 'Оформить заказ'}</Button>
+        <Button type="primary" size="medium" onClick={handleOrder}>{isTablet ? 'Заказать' : 'Оформить заказ'}</Button>
       </div>
     </section>
   );
 }
 
 BurgerConstructor.propTypes = {
-  onModalOpen: PropTypes.func.isRequired,
+  onOrder: PropTypes.func.isRequired,
   isTablet: PropTypes.bool.isRequired,
   onCloseConstructor: PropTypes.func.isRequired,
 };

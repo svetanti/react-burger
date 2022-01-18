@@ -4,13 +4,13 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import appStyles from './app.module.css';
 import Main from '../main/main';
-import API_URL from '../../constants/constants';
 import Modal from '../modal/modal';
 import ModalOverlay from '../modal-overlay/modal.overlay';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import useWindowSize from '../../hooks/useWindowSize';
 import IngredientsContext from '../../contexts/ingredients-context';
+import * as api from '../../utils/api';
 
 function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -18,6 +18,7 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentModal, setCurrentModal] = useState('');
   const [currentIngredient, setCurrentIngredient] = useState({});
+  const [orderNumber, setOrderNumber] = useState(0);
   const { width } = useWindowSize();
   const isTablet = width <= 1024;
   const [isConstructorOpened, setIsConstructorOpened] = useState(true);
@@ -43,6 +44,15 @@ function App() {
     setCurrentModal('orderDetails');
   };
 
+  const makeOrder = (orderData) => {
+    api.sendOrder(orderData)
+      .then((order) => {
+        openOrderDetails();
+        setOrderNumber(order);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -56,19 +66,8 @@ function App() {
   };
 
   useEffect(() => {
-    fetch(API_URL)
-      .then((res) => {
-        if (!res.ok) {
-          return res.json()
-            .then((err) => {
-              throw new Error(err.message);
-            });
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setIngredients(data.data);
-      })
+    api.getIngredients()
+      .then((data) => setIngredients(data))
       .catch((err) => console.log(err));
   }, []);
 
@@ -88,7 +87,7 @@ function App() {
           />
           { isConstructorOpened && (
           <BurgerConstructor
-            onModalOpen={openOrderDetails}
+            onOrder={makeOrder}
             isTablet={isTablet}
             onCloseConstructor={closeConstructor}
           />
@@ -104,7 +103,7 @@ function App() {
         >
           { currentModal === 'ingredientDetails'
             ? <IngredientDetails ingredient={currentIngredient} />
-            : <OrderDetails />}
+            : <OrderDetails orderNumber={orderNumber} />}
         </Modal>
       </>
       )}
