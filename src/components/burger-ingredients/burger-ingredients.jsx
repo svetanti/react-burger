@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
@@ -7,7 +7,7 @@ import BurgerIngredientsBlock from './burger-ingridients-block';
 function BurgerIngredients({
   onModalOpen, onOpenConstructor, isTablet,
 }) {
-  const [current, setCurrent] = useState('Булки');
+  const [current, setCurrent] = React.useState('Булки');
   return (
     <section className={burgerIngredientsStyles.container}>
       <h1 className={burgerIngredientsStyles.title}>Соберите бургер</h1>

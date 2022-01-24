@@ -16,7 +16,7 @@ export const sendOrder = (data) => fetch(`${API_URL}/orders`, {
     }
     return res.json();
   })
-  .then((response) => response.order.number);
+  .then((response) => response.order);
 
 export const getIngredients = () => fetch(`${API_URL}/ingredients`)
   .then((res) => {

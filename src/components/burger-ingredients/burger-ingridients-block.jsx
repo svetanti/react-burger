@@ -1,31 +1,24 @@
-import React, { useContext } from 'react';
-import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
-import IngredientsContext from '../../contexts/ingredients-context';
+import BurgerIngredient from './burger-ingredient';
 
 function BurgerIngredientsBlock({
   type, name, onClick,
 }) {
-  const ingredients = useContext(IngredientsContext);
   const handleClick = (e) => {
     onClick(e.currentTarget.id);
   };
+
+  const { ingredients } = useSelector((store) => store.ingredientsReducer);
 
   return (
     <li>
       <h2 className={burgerIngredientsStyles.gridTitle}>{name}</h2>
       <div className={burgerIngredientsStyles.grid}>
         { ingredients.filter((item) => item.type === type).map((el) => (
-          <div className={burgerIngredientsStyles.item} key={el._id} id={el._id} role="presentation" onClick={handleClick} onKeyDown={handleClick}>
-            <Counter count={1} size="default" />
-            <img src={el.image} className={burgerIngredientsStyles.image} alt={el.name} />
-            <p className={burgerIngredientsStyles.price}>
-              <span>{el.price}</span>
-              <CurrencyIcon type="primary" />
-            </p>
-            <p className={burgerIngredientsStyles.text}>{el.name}</p>
-          </div>
+          <BurgerIngredient el={el} onClick={handleClick} key={el._id} />
         ))}
       </div>
     </li>
