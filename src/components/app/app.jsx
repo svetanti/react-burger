@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -13,7 +13,12 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import useWindowSize from '../../hooks/useWindowSize';
 import * as api from '../../utils/api';
 import {
-  ADD_INGREDIENT, ADD_INGREDIENT_DATA, DELETE_INGREDIENT, DELETE_INGREDIENT_DATA, getIngredients,
+  ADD_INGREDIENT,
+  ADD_INGREDIENT_DATA,
+  DELETE_INGREDIENT,
+  DELETE_INGREDIENT_DATA,
+  getIngredients,
+  MOVE_CONSTRUCTOR_ELEMENT,
 } from '../../services/actions/actions';
 
 function App() {
@@ -77,8 +82,12 @@ function App() {
         dispatch({ type: DELETE_INGREDIENT, index });
       }
     }
-    dispatch({ type: ADD_INGREDIENT, id: item._id });
+    dispatch({ type: ADD_INGREDIENT, item });
   };
+
+  const handleMove = useCallback((dragIndex, hoverIndex) => {
+    dispatch({ type: MOVE_CONSTRUCTOR_ELEMENT, payload: { dragIndex, hoverIndex } });
+  }, [dispatch]);
 
   const handleDeleteIngredient = (item) => {
     const index = currentBurger.indexOf(item);
@@ -109,6 +118,7 @@ function App() {
             isTablet={isTablet}
             onCloseConstructor={closeConstructor}
             onDropHandler={handleDrop}
+            onMoveHandler={handleMove}
             onDelete={handleDeleteIngredient}
           />
           )}

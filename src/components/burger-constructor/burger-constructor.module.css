@@ -45,6 +45,10 @@
   justify-items: stretch;
 }
 
+.isDragging {
+  opacity: 0.5;
+}
+
 .totalWrapper {
   composes: mt-10 from global;
   margin-bottom: 52px;

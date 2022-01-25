@@ -4,6 +4,7 @@ import {
   DELETE_INGREDIENT,
   ADD_INGREDIENT_DATA,
   DELETE_INGREDIENT_DATA,
+  MOVE_CONSTRUCTOR_ELEMENT,
 } from '../actions/actions';
 
 const initialState = {
@@ -24,9 +25,7 @@ export const ingredientsReducer = (state = initialState, action = {}) => {
     case ADD_INGREDIENT: {
       return {
         ...state,
-        currentBurger: [...state.currentBurger,
-          [...state.ingredients].find((item) => (item._id === action.id ? item : null)),
-        ],
+        currentBurger: [...state.currentBurger, action.item],
       };
     }
     case DELETE_INGREDIENT: {
@@ -47,6 +46,21 @@ export const ingredientsReducer = (state = initialState, action = {}) => {
         ...state,
         ingredient: {},
       };
+    }
+    case MOVE_CONSTRUCTOR_ELEMENT: {
+      const constructorElements = [...state.currentBurger].filter((item) => item.type !== 'bun');
+      const bun = [...state.currentBurger].find((item) => item.type === 'bun');
+      const dragElement = constructorElements.splice(action.payload.dragIndex, 1)[0];
+      constructorElements.splice(action.payload.hoverIndex, 0, dragElement);
+      return bun
+        ? ({
+          ...state,
+          currentBurger: [bun, ...constructorElements],
+        })
+        : ({
+          ...state,
+          currentBurger: constructorElements,
+        });
     }
     default: {
       return state;
