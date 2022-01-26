@@ -58,6 +58,7 @@ export const ingredientsReducer = (state = initialIngredientsState, action = {})
     case GET_INGREDIENTS_ERROR: {
       return {
         ...state,
+        ingredients: [],
         ingredientsRequest: false,
         ingredientsFaied: true,
       };
@@ -142,6 +143,9 @@ export const orderReducer = (state = initialOrderState, action = {}) => {
     case GET_ORDER_ERROR: {
       return {
         ...state,
+        order: {
+          number: 0,
+        },
         orderRequest: false,
         orderFaied: true,
       };
