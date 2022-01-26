@@ -96,7 +96,7 @@ function BurgerConstructor({
           type="primary"
           size="medium"
           onClick={handleOrder}
-          disabled={!currentBurger.length || orderRequest}
+          disabled={!currentBurger.length || orderRequest || !bun}
         >
           {isTablet ? 'Заказать' : 'Оформить заказ'}
 
