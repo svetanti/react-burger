@@ -6,11 +6,17 @@ import {
   DELETE_INGREDIENT_DATA,
   MOVE_CONSTRUCTOR_ELEMENT,
   TOGGLE_MODAL,
-  GET_ORDER_NUMBER,
+  GET_ORDER_SUCCESS,
+  GET_INGREDIENTS_REQUEST,
+  GET_INGREDIENTS_ERROR,
+  GET_ORDER_REQUEST,
+  GET_ORDER_ERROR,
 } from '../actions/actions';
 
 const initialIngredientsState = {
   ingredients: [],
+  ingredientsRequest: false,
+  ingredientsFaied: false,
 };
 
 const initialBurgerState = {
@@ -25,6 +31,8 @@ const initialOrderState = {
   order: {
     number: 0,
   },
+  orderRequest: false,
+  orderFaied: false,
 };
 
 const initialModalState = {
@@ -33,10 +41,25 @@ const initialModalState = {
 
 export const ingredientsReducer = (state = initialIngredientsState, action = {}) => {
   switch (action.type) {
+    case GET_INGREDIENTS_REQUEST: {
+      return {
+        ...state,
+        ingredientsRequest: true,
+      };
+    }
     case GET_INGREDIENTS_SUCCESS: {
       return {
         ...state,
         ingredients: action.ingredients,
+        ingredientsRequest: false,
+        ingredientsFaied: false,
+      };
+    }
+    case GET_INGREDIENTS_ERROR: {
+      return {
+        ...state,
+        ingredientsRequest: false,
+        ingredientsFaied: true,
       };
     }
     default: {
@@ -102,11 +125,25 @@ export const ingredientReducer = (state = initialIngredientState, action = {}) =
 
 export const orderReducer = (state = initialOrderState, action = {}) => {
   switch (action.type) {
-    case GET_ORDER_NUMBER: {
-      console.log(action.order);
+    case GET_ORDER_REQUEST: {
+      return {
+        ...state,
+        orderRequest: true,
+      };
+    }
+    case GET_ORDER_SUCCESS: {
       return {
         ...state,
         order: action.order,
+        orderRequest: false,
+        orderFaied: false,
+      };
+    }
+    case GET_ORDER_ERROR: {
+      return {
+        ...state,
+        orderRequest: false,
+        orderFaied: true,
       };
     }
     default: {

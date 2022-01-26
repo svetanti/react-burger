@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import ConstructorElementMobile from './constructor-element-mobile';
 import burgerConstructorStyles from './burger-constructor.module.css';
 
@@ -18,7 +19,7 @@ function BurgerConstructorMobile() {
       )}
       <ul className={burgerConstructorStyles.list}>
         {currentBurger.filter((item) => item.type !== 'bun').map((el) => (
-          <li className={burgerConstructorStyles.ingredient} key={el.id}>
+          <li className={burgerConstructorStyles.ingredient} key={`${el._id}_${uuidv4()}`}>
             <ConstructorElementMobile
               text={el.name}
               price={el.price}

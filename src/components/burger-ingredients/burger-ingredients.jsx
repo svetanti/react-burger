@@ -6,7 +6,7 @@ import burgerIngredientsStyles from './burger-ingredients.module.css';
 import BurgerIngredientsBlock from './burger-ingridients-block';
 
 function BurgerIngredients({
-  onModalOpen, onOpenConstructor, isTablet,
+  onModalOpen, onOpenConstructor, isTablet, onIngredientAdd,
 }) {
   const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
   const totalPrice = currentBurger.length
@@ -66,9 +66,9 @@ function BurgerIngredients({
         <Tab value="main" active={current === 'main'} onClick={handleTabClick}>Начинки</Tab>
       </div>
       <ul className={burgerIngredientsStyles.list} onScroll={handleTabChange}>
-        <BurgerIngredientsBlock type="bun" name="Булки" onClick={onModalOpen} ref={bunRef} />
-        <BurgerIngredientsBlock type="sauce" name="Соусы" onClick={onModalOpen} ref={sauceRef} />
-        <BurgerIngredientsBlock type="main" name="Начинки" onClick={onModalOpen} ref={mainRef} />
+        <BurgerIngredientsBlock type="bun" name="Булки" onClick={isTablet ? onIngredientAdd : onModalOpen} ref={bunRef} />
+        <BurgerIngredientsBlock type="sauce" name="Соусы" onClick={isTablet ? onIngredientAdd : onModalOpen} ref={sauceRef} />
+        <BurgerIngredientsBlock type="main" name="Начинки" onClick={isTablet ? onIngredientAdd : onModalOpen} ref={mainRef} />
       </ul>
       {isTablet && (
         <div className={burgerIngredientsStyles.totalWrapper}>
@@ -87,6 +87,7 @@ BurgerIngredients.propTypes = {
   onModalOpen: PropTypes.func.isRequired,
   onOpenConstructor: PropTypes.func.isRequired,
   isTablet: PropTypes.bool.isRequired,
+  onIngredientAdd: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

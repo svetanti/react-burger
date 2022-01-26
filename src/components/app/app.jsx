@@ -117,6 +117,7 @@ function App() {
           <BurgerIngredients
             onModalOpen={openIngredientDetails}
             onOpenConstructor={openConstructor}
+            onIngredientAdd={handleDrop}
             isTablet={isTablet}
           />
           { isConstructorOpened && (
