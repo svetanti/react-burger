@@ -11,59 +11,66 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import useWindowSize from '../../hooks/useWindowSize';
-import * as api from '../../utils/api';
 import {
   ADD_INGREDIENT,
   ADD_INGREDIENT_DATA,
   DELETE_INGREDIENT,
   DELETE_INGREDIENT_DATA,
-  getIngredients,
   MOVE_CONSTRUCTOR_ELEMENT,
+  getIngredients,
+  TOGGLE_MODAL,
+  getOrder,
 } from '../../services/actions/actions';
 
 function App() {
   const dispatch = useDispatch();
   const [isMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentModal, setCurrentModal] = useState('');
-  const [orderNumber, setOrderNumber] = useState(0);
   const { width } = useWindowSize();
   const isTablet = width <= 1024;
   const [isConstructorOpened, setIsConstructorOpened] = useState(true);
+
+  const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
+  const { isModalOpened } = useSelector((store) => store.modalReducer);
+  const { order } = useSelector((store) => store.orderReducer);
+
+  let modalContent;
   let headerText;
-  if (currentModal === 'ingredientDetails') {
-    headerText = 'Детали ингредиента';
-  } else if (isTablet) {
-    headerText = 'Заказ оформлен';
-  } else {
-    headerText = '';
+  switch (currentModal) {
+    case 'ingredientDetails': {
+      modalContent = <IngredientDetails />;
+      headerText = 'Детали ингредиента';
+      break;
+    }
+    case 'orderDetails': {
+      modalContent = <OrderDetails orderNumber={order.number} />;
+      headerText = isTablet ? 'Заказ оформлен' : '';
+      break;
+    }
+    default: {
+      modalContent = '';
+    }
   }
 
-  const { currentBurger } = useSelector((store) => store.ingredientsReducer);
-
-  const openIngredientDetails = (id) => {
-    dispatch({ type: ADD_INGREDIENT_DATA, id });
-    setIsModalOpen(true);
+  const openIngredientDetails = (item) => {
+    dispatch({ type: ADD_INGREDIENT_DATA, item });
+    dispatch({ type: TOGGLE_MODAL });
     setCurrentModal('ingredientDetails');
   };
 
   const openOrderDetails = () => {
-    setIsModalOpen(true);
     setCurrentModal('orderDetails');
+    dispatch({ type: TOGGLE_MODAL });
   };
 
   const makeOrder = (orderData) => {
-    api.sendOrder(orderData)
-      .then((order) => {
-        openOrderDetails();
-        setOrderNumber(order);
-      })
-      .catch((err) => console.log(err));
+    dispatch(getOrder(orderData));
+    openOrderDetails();
   };
 
   const closeModal = () => {
     dispatch({ type: DELETE_INGREDIENT_DATA });
-    setIsModalOpen(false);
+    dispatch({ type: TOGGLE_MODAL });
   };
 
   const openConstructor = () => {
@@ -98,9 +105,9 @@ function App() {
     dispatch(getIngredients());
   }, [dispatch]);
 
-  /*  useEffect(() => {
+  useEffect(() => {
     setIsConstructorOpened(!isTablet);
-  }, [isTablet]); */
+  }, [isTablet]);
 
   return (
     <div className={appStyles.app}>
@@ -124,14 +131,13 @@ function App() {
           )}
         </DndProvider>
       </Main>
-      {isModalOpen && (
+      {isModalOpened && (
       <Modal
         onClose={closeModal}
         header={headerText}
       >
-          { currentModal === 'ingredientDetails'
-            ? <IngredientDetails />
-            : <OrderDetails orderNumber={orderNumber} />}
+        {modalContent}
+
       </Modal>
       )}
     </div>

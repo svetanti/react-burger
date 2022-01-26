@@ -5,16 +5,33 @@ import {
   ADD_INGREDIENT_DATA,
   DELETE_INGREDIENT_DATA,
   MOVE_CONSTRUCTOR_ELEMENT,
+  TOGGLE_MODAL,
+  GET_ORDER_NUMBER,
 } from '../actions/actions';
 
-const initialState = {
+const initialIngredientsState = {
   ingredients: [],
-  currentBurger: [],
-  ingredient: {},
-  order: {},
 };
 
-export const ingredientsReducer = (state = initialState, action = {}) => {
+const initialBurgerState = {
+  currentBurger: [],
+};
+
+const initialIngredientState = {
+  ingredient: {},
+};
+
+const initialOrderState = {
+  order: {
+    number: 0,
+  },
+};
+
+const initialModalState = {
+  isModalOpened: false,
+};
+
+export const ingredientsReducer = (state = initialIngredientsState, action = {}) => {
   switch (action.type) {
     case GET_INGREDIENTS_SUCCESS: {
       return {
@@ -22,6 +39,14 @@ export const ingredientsReducer = (state = initialState, action = {}) => {
         ingredients: action.ingredients,
       };
     }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const currentBurgerReducer = (state = initialBurgerState, action = {}) => {
+  switch (action.type) {
     case ADD_INGREDIENT: {
       return {
         ...state,
@@ -29,22 +54,9 @@ export const ingredientsReducer = (state = initialState, action = {}) => {
       };
     }
     case DELETE_INGREDIENT: {
-      console.log(action.index);
       return {
         ...state,
         currentBurger: [...state.currentBurger].filter((item, index) => index !== action.index),
-      };
-    }
-    case ADD_INGREDIENT_DATA: {
-      return {
-        ...state,
-        ingredient: [...state.ingredients].find((item) => item._id === action.id),
-      };
-    }
-    case DELETE_INGREDIENT_DATA: {
-      return {
-        ...state,
-        ingredient: {},
       };
     }
     case MOVE_CONSTRUCTOR_ELEMENT: {
@@ -68,8 +80,46 @@ export const ingredientsReducer = (state = initialState, action = {}) => {
   }
 };
 
-export const modalReducer = (state = initialState, action = {}) => {
+export const ingredientReducer = (state = initialIngredientState, action = {}) => {
   switch (action.type) {
+    case ADD_INGREDIENT_DATA: {
+      return {
+        ...state,
+        ingredient: action.item,
+      };
+    }
+    case DELETE_INGREDIENT_DATA: {
+      return {
+        ...state,
+        ingredient: {},
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const orderReducer = (state = initialOrderState, action = {}) => {
+  switch (action.type) {
+    case GET_ORDER_NUMBER: {
+      console.log(action.order);
+      return {
+        ...state,
+        order: action.order,
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const modalReducer = (state = initialModalState, action = {}) => {
+  switch (action.type) {
+    case (TOGGLE_MODAL): {
+      return { ...state, isModalOpened: !state.isModalOpened };
+    }
     default: {
       return state;
     }

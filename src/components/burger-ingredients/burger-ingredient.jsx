@@ -10,7 +10,7 @@ function BurgerIngredient({ el, onClick }) {
     type: 'ingredient',
     item: el,
   });
-  const { currentBurger } = useSelector((store) => store.ingredientsReducer);
+  const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
   const counter = currentBurger.filter((item) => item._id === el._id)?.length;
   return (
     <div

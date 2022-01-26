@@ -1,29 +1,29 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import BurgerIngredient from './burger-ingredient';
 
-function BurgerIngredientsBlock({
+const BurgerIngredientsBlock = forwardRef(({
   type, name, onClick,
-}) {
-  const handleClick = (e) => {
-    onClick(e.currentTarget.id);
+}, ref) => {
+  const handleClick = (el) => {
+    onClick(el);
   };
 
   const { ingredients } = useSelector((store) => store.ingredientsReducer);
 
   return (
-    <li>
+    <li ref={ref}>
       <h2 className={burgerIngredientsStyles.gridTitle}>{name}</h2>
       <div className={burgerIngredientsStyles.grid}>
         { ingredients.filter((item) => item.type === type).map((el) => (
-          <BurgerIngredient el={el} onClick={handleClick} key={el._id} />
+          <BurgerIngredient el={el} onClick={() => handleClick(el)} key={el._id} />
         ))}
       </div>
     </li>
   );
-}
+});
 
 BurgerIngredientsBlock.propTypes = {
   type: PropTypes.string.isRequired,
