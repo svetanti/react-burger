@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { useDrop } from 'react-dnd';
+import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import {
   ConstructorElement, CurrencyIcon, Button, CloseIcon,
@@ -11,7 +11,7 @@ import BurgerConstructorMobile from './burger-constructor-mobile';
 import BurgerConstructorElement from './burger-constructor-element';
 
 function BurgerConstructor({
-  onOrder, isTablet, onCloseConstructor, onDropHandler, onDelete, onMoveHandler,
+  onOrder, isTablet, onCloseConstructor, onDropHandler, onDelete, onMove, findIngredient,
 }) {
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -40,7 +40,8 @@ function BurgerConstructor({
           key={`${el._id}_${uuidv4()}`}
           index={index}
           onDelete={onDelete}
-          onMove={onMoveHandler}
+          onMove={onMove}
+          findIngredient={findIngredient}
         />
       )),
     [currentBurger],
@@ -111,8 +112,9 @@ BurgerConstructor.propTypes = {
   isTablet: PropTypes.bool.isRequired,
   onCloseConstructor: PropTypes.func.isRequired,
   onDropHandler: PropTypes.func.isRequired,
-  onMoveHandler: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired,
+  findIngredient: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

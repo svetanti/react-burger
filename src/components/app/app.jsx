@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useState,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import update from 'immutability-helper';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
 import appStyles from './app.module.css';
 import Main from '../main/main';
 import Modal from '../modal/modal';
@@ -21,6 +23,8 @@ import {
   TOGGLE_MODAL,
   getOrder,
 } from '../../services/actions/actions';
+import BurgerConstructor from '../burger-constructor/burger-constructor';
+import { debounce } from '../../utils/utils';
 
 function App() {
   const dispatch = useDispatch();
@@ -33,6 +37,8 @@ function App() {
   const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
   const { isModalOpened } = useSelector((store) => store.modalReducer);
   const { order } = useSelector((store) => store.orderReducer);
+
+  const currentBurgerIngredients = [...currentBurger].filter((item) => item.type !== 'bun');
 
   let modalContent;
   let headerText;
@@ -92,9 +98,34 @@ function App() {
     dispatch({ type: ADD_INGREDIENT, item });
   };
 
-  const handleMove = useCallback((dragIndex, hoverIndex) => {
-    dispatch({ type: MOVE_CONSTRUCTOR_ELEMENT, payload: { dragIndex, hoverIndex } });
-  }, [dispatch]);
+  const findIngredient = useCallback((id) => {
+    const ingredient = currentBurgerIngredients.filter((c) => `${c._id}` === id)[0];
+    return {
+      ingredient,
+      index: currentBurgerIngredients.indexOf(ingredient),
+    };
+  }, [[...currentBurger].filter((item) => item.type !== 'bun')]);
+
+  const handleMoveToDebounce = useCallback((_id, atIndex) => {
+    const { ingredient, index } = findIngredient(_id);
+    const bun = [...currentBurger].find((item) => item.type === 'bun');
+    const payload = bun
+      ? [bun, update(currentBurgerIngredients, {
+        $splice: [
+          [index, 1],
+          [atIndex, 0, ingredient],
+        ],
+      })]
+      : update(currentBurgerIngredients, {
+        $splice: [
+          [index, 1],
+          [atIndex, 0, ingredient],
+        ],
+      });
+    dispatch({ type: MOVE_CONSTRUCTOR_ELEMENT, payload });
+  }, [findIngredient, currentBurgerIngredients]);
+
+  const handleMove = debounce(handleMoveToDebounce);
 
   const handleDeleteIngredient = (item) => {
     const index = currentBurger.indexOf(item);
@@ -111,9 +142,9 @@ function App() {
 
   return (
     <div className={appStyles.app}>
-      <AppHeader isMenuOpen={isMenuOpen} isTablet={isTablet} />
-      <Main>
-        <DndProvider backend={HTML5Backend}>
+      <DndProvider backend={HTML5Backend}>
+        <AppHeader isMenuOpen={isMenuOpen} isTablet={isTablet} />
+        <Main>
           <BurgerIngredients
             onModalOpen={openIngredientDetails}
             onOpenConstructor={openConstructor}
@@ -126,22 +157,23 @@ function App() {
             isTablet={isTablet}
             onCloseConstructor={closeConstructor}
             onDropHandler={handleDrop}
-            onMoveHandler={handleMove}
+            onMove={handleMove}
+            findIngredient={findIngredient}
             onDelete={handleDeleteIngredient}
           />
           )}
-        </DndProvider>
-      </Main>
-      {isModalOpened && (
-      <Modal
-        onClose={closeModal}
-        header={headerText}
-      >
-        {modalContent}
-
-      </Modal>
-      )}
+        </Main>
+        {isModalOpened && (
+        <Modal
+          onClose={closeModal}
+          header={headerText}
+        >
+          {modalContent}
+        </Modal>
+        )}
+      </DndProvider>
     </div>
+
   );
 }
 

@@ -84,19 +84,10 @@ export const currentBurgerReducer = (state = initialBurgerState, action = {}) =>
       };
     }
     case MOVE_CONSTRUCTOR_ELEMENT: {
-      const constructorElements = [...state.currentBurger].filter((item) => item.type !== 'bun');
-      const bun = [...state.currentBurger].find((item) => item.type === 'bun');
-      const dragElement = constructorElements.splice(action.payload.dragIndex, 1)[0];
-      constructorElements.splice(action.payload.hoverIndex, 0, dragElement);
-      return bun
-        ? ({
-          ...state,
-          currentBurger: [bun, ...constructorElements],
-        })
-        : ({
-          ...state,
-          currentBurger: constructorElements,
-        });
+      return ({
+        ...state,
+        currentBurger: action.payload,
+      });
     }
     default: {
       return state;

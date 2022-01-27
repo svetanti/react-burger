@@ -17,3 +17,11 @@ export function off<T extends Window | Document | HTMLElement | EventTarget>(
 }
 
 export const isBrowser = typeof window !== 'undefined';
+
+export const debounce = (fn: Function, ms = 100) => {
+  let timeoutId: ReturnType<typeof setTimeout>;
+  return function (this: any, ...args: any[]) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn.apply(this, args), ms);
+  };
+};
