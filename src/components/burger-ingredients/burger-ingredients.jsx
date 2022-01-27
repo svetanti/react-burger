@@ -10,7 +10,7 @@ function BurgerIngredients({
 }) {
   const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
   const totalPrice = currentBurger.length
-    ? currentBurger.reduce((prev, cur) => (cur.type !== 'bun' ? prev + cur.price : cur.price * 2), 0)
+    ? currentBurger.reduce((prev, cur) => (cur.type !== 'bun' ? prev + cur.price : prev + cur.price * 2), 0)
     : 0;
 
   const bunRef = useRef();

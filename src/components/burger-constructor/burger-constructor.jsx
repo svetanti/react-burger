@@ -24,7 +24,7 @@ function BurgerConstructor({
   const { orderRequest } = useSelector((store) => store.orderReducer);
   const bun = currentBurger && currentBurger.find((item) => item.type === 'bun');
   const totalPrice = currentBurger.length
-    ? currentBurger.reduce((prev, cur) => (cur.type !== 'bun' ? prev + cur.price : cur.price * 2), 0)
+    ? currentBurger.reduce((prev, cur) => (cur.type !== 'bun' ? prev + cur.price : prev + cur.price * 2), 0)
     : 0;
 
   const handleOrder = () => {
