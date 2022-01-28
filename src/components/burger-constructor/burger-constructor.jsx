@@ -11,7 +11,7 @@ import BurgerConstructorMobile from './burger-constructor-mobile';
 import BurgerConstructorElement from './burger-constructor-element';
 
 function BurgerConstructor({
-  onOrder, isTablet, onCloseConstructor, onDropHandler, onDelete, onMove, findIngredient,
+  onOrder, isTablet, onCloseConstructor, onDropHandler, onDelete, onMove,
 }) {
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -37,11 +37,11 @@ function BurgerConstructor({
       .map((el, index) => (
         <BurgerConstructorElement
           el={el}
+          id={`${el._id}_${uuidv4()}`}
           key={`${el._id}_${uuidv4()}`}
           index={index}
           onDelete={onDelete}
           onMove={onMove}
-          findIngredient={findIngredient}
         />
       )),
     [currentBurger],
@@ -114,7 +114,6 @@ BurgerConstructor.propTypes = {
   onDropHandler: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
-  findIngredient: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

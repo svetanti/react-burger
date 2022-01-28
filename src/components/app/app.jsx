@@ -24,7 +24,6 @@ import {
   getOrder,
 } from '../../services/actions/actions';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { debounce } from '../../utils/utils';
 
 function App() {
   const dispatch = useDispatch();
@@ -98,34 +97,24 @@ function App() {
     dispatch({ type: ADD_INGREDIENT, item });
   };
 
-  const findIngredient = useCallback((id) => {
-    const ingredient = currentBurgerIngredients.filter((c) => `${c._id}` === id)[0];
-    return {
-      ingredient,
-      index: currentBurgerIngredients.indexOf(ingredient),
-    };
-  }, [[...currentBurger].filter((item) => item.type !== 'bun')]);
-
-  const handleMoveToDebounce = useCallback((_id, atIndex) => {
-    const { ingredient, index } = findIngredient(_id);
+  const handleMove = useCallback((dragIndex, hoverIndex) => {
     const bun = [...currentBurger].find((item) => item.type === 'bun');
+    const dragElement = currentBurgerIngredients[dragIndex];
     const payload = bun
-      ? [bun, update(currentBurgerIngredients, {
+      ? [bun, ...update(currentBurgerIngredients, {
         $splice: [
-          [index, 1],
-          [atIndex, 0, ingredient],
+          [dragIndex, 1],
+          [hoverIndex, 0, dragElement],
         ],
       })]
       : update(currentBurgerIngredients, {
         $splice: [
-          [index, 1],
-          [atIndex, 0, ingredient],
+          [dragIndex, 1],
+          [hoverIndex, 0, dragElement],
         ],
       });
     dispatch({ type: MOVE_CONSTRUCTOR_ELEMENT, payload });
-  }, [findIngredient, currentBurgerIngredients]);
-
-  const handleMove = debounce(handleMoveToDebounce);
+  }, [currentBurgerIngredients]);
 
   const handleDeleteIngredient = (item) => {
     const index = currentBurger.indexOf(item);
@@ -158,7 +147,6 @@ function App() {
             onCloseConstructor={closeConstructor}
             onDropHandler={handleDrop}
             onMove={handleMove}
-            findIngredient={findIngredient}
             onDelete={handleDeleteIngredient}
           />
           )}
