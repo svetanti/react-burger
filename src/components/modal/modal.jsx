@@ -3,6 +3,7 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import modalStyles from './modal.module.css';
+import ModalOverlay from '../modal-overlay/modal-overlay';
 
 const modalRoot = document.getElementById('react-modals');
 
@@ -21,13 +22,16 @@ const Modal = ({ header, children, onClose }) => {
   }, []);
 
   return ReactDOM.createPortal(
-    <div className={modalStyles.wrapper}>
-      <div className={modalStyles.header}>
-        <h3 className={modalStyles.title}>{header}</h3>
-        <CloseIcon type="primary" onClick={onClose} />
+    <>
+      <ModalOverlay onClose={onClose} />
+      <div className={modalStyles.wrapper}>
+        <div className={modalStyles.header}>
+          <h3 className={modalStyles.title}>{header}</h3>
+          <CloseIcon type="primary" onClick={onClose} />
+        </div>
+        {children}
       </div>
-      {children}
-    </div>,
+    </>,
     modalRoot,
   );
 };

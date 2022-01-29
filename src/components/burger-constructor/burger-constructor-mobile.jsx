@@ -1,10 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import ConstructorElementMobile from './constructor-element-mobile';
 import burgerConstructorStyles from './burger-constructor.module.css';
 
-function BurgerConstructorMobile({ ingredients }) {
-  const bun = ingredients && ingredients.find((item) => item.type === 'bun');
+function BurgerConstructorMobile() {
+  const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
+  const bun = currentBurger.find((item) => item.type === 'bun');
 
   return (
     <>
@@ -15,10 +17,9 @@ function BurgerConstructorMobile({ ingredients }) {
         thumbnail={bun.image}
       />
       )}
-
       <ul className={burgerConstructorStyles.list}>
-        {ingredients.filter((item) => item.type === 'main' || item.type === 'sauce').slice(1).map((el) => (
-          <li className={burgerConstructorStyles.ingredient} key={el.id}>
+        {currentBurger.filter((item) => item.type !== 'bun').map((el) => (
+          <li className={burgerConstructorStyles.ingredient} key={`${el._id}_${uuidv4()}`}>
             <ConstructorElementMobile
               text={el.name}
               price={el.price}
@@ -37,22 +38,5 @@ function BurgerConstructorMobile({ ingredients }) {
     </>
   );
 }
-
-BurgerConstructorMobile.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    __v: PropTypes.number.isRequired,
-  })).isRequired,
-};
 
 export default BurgerConstructorMobile;

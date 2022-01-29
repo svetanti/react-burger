@@ -1,17 +1,54 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 import {
-  ConstructorElement, DragIcon, CurrencyIcon, Button, CloseIcon,
+  ConstructorElement, CurrencyIcon, Button, CloseIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import BurgerConstructorMobile from './burger-constructor-mobile';
+import BurgerConstructorElement from './burger-constructor-element';
 
 function BurgerConstructor({
-  ingredients, onModalOpen, isTablet, onCloseConstructor,
+  onOrder, isTablet, onCloseConstructor, onDropHandler, onDelete, onMove,
 }) {
-  const bun = ingredients && ingredients.find((item) => item.type === 'bun');
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      onDropHandler(item);
+    },
+  });
+
+  const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
+  const { orderRequest } = useSelector((store) => store.orderReducer);
+  const bun = currentBurger && currentBurger.find((item) => item.type === 'bun');
+  const totalPrice = currentBurger.length
+    ? currentBurger.reduce((prev, cur) => (cur.type !== 'bun' ? prev + cur.price : prev + cur.price * 2), 0)
+    : 0;
+
+  const handleOrder = () => {
+    onOrder(currentBurger);
+  };
+
+  const content = useMemo(
+    () => currentBurger
+      .filter((item) => item.type !== 'bun')
+      .map((el, index) => (
+        <BurgerConstructorElement
+          el={el}
+          id={`${el._id}_${uuidv4()}`}
+          key={`${el._id}_${uuidv4()}`}
+          index={index}
+          onDelete={onDelete}
+          onMove={onMove}
+        />
+      )),
+    [currentBurger],
+  );
+
   return (
-    <section className={burgerConstructorStyles.container}>
+    <section className={burgerConstructorStyles.container} ref={dropTarget}>
       { isTablet
         ? (
           <>
@@ -19,77 +56,64 @@ function BurgerConstructor({
               <span>Заказ</span>
               <CloseIcon onClick={onCloseConstructor} />
             </div>
-            <BurgerConstructorMobile ingredients={ingredients} />
+            <BurgerConstructorMobile />
           </>
         )
         : (
           <>
+            { bun && (
             <div className={burgerConstructorStyles.ingridientWrapper}>
-              {bun && (
-                <ConstructorElement
-                  type="top"
-                  isLocked
-                  text={bun.name}
-                  price={bun.price}
-                  thumbnail={bun.image}
-                />
-              )}
+              <ConstructorElement
+                type="top"
+                isLocked
+                text={bun.name}
+                price={bun.price}
+                thumbnail={bun.image}
+              />
             </div>
+            )}
             <ul className={burgerConstructorStyles.list}>
-              {ingredients.filter((item) => item.type === 'main' || item.type === 'sauce').slice(1).map((el) => (
-                <li className={burgerConstructorStyles.ingredient} key={el.id}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                    isLocked={false}
-                    text={el.name}
-                    price={el.price}
-                    thumbnail={el.image}
-                  />
-                </li>
-              ))}
+              {content}
             </ul>
+            {bun && (
             <div className={burgerConstructorStyles.ingridientWrapper}>
-              {bun && (
-                <ConstructorElement
-                  type="bottom"
-                  isLocked
-                  text={bun.name}
-                  price={bun.price}
-                  thumbnail={bun.image}
-                />
-              )}
+              <ConstructorElement
+                type="bottom"
+                isLocked
+                text={bun.name}
+                price={bun.price}
+                thumbnail={bun.image}
+              />
             </div>
+            )}
           </>
         )}
       <div className={burgerConstructorStyles.totalWrapper}>
         <p className={burgerConstructorStyles.price}>
-          <span>610</span>
+          <span>{totalPrice}</span>
           <CurrencyIcon type="primary" />
         </p>
-        <Button type="primary" size="medium" onClick={onModalOpen}>{isTablet ? 'Заказать' : 'Оформить заказ'}</Button>
+        <Button
+          type="primary"
+          size="medium"
+          onClick={handleOrder}
+          disabled={!currentBurger.length || orderRequest || !bun}
+        >
+          {isTablet ? 'Заказать' : 'Оформить заказ'}
+
+        </Button>
       </div>
     </section>
   );
 }
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    __v: PropTypes.number.isRequired,
-  })).isRequired,
-  onModalOpen: PropTypes.func.isRequired,
+  onOrder: PropTypes.func.isRequired,
   isTablet: PropTypes.bool.isRequired,
   onCloseConstructor: PropTypes.func.isRequired,
+  onDropHandler: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;
