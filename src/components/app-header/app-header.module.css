@@ -30,7 +30,7 @@
   border: none;
 }
 
-.nav .link:first-of-type {
+.linkActive {
   color: #fff;
 }
 

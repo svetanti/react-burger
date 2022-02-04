@@ -1,15 +1,13 @@
 import React, {
   useCallback, useEffect, useState,
 } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
 import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import appStyles from './app.module.css';
-import Main from '../main/main';
-import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import useWindowSize from '../../hooks/useWindowSize';
@@ -23,7 +21,16 @@ import {
   TOGGLE_MODAL,
   getOrder,
 } from '../../services/actions/actions';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
+import {
+  ConstructorPage,
+  ForgotPasswordPage,
+  IngredientPage,
+  LoginPage,
+  NotFoundPage,
+  ProfilePage,
+  RegisterPage,
+  ResetPasswordPage,
+} from '../../pages';
 
 function App() {
   const dispatch = useDispatch();
@@ -130,38 +137,54 @@ function App() {
   }, [isTablet]);
 
   return (
-    <div className={appStyles.app}>
-      <DndProvider backend={HTML5Backend}>
-        <AppHeader isMenuOpen={isMenuOpen} isTablet={isTablet} />
-        <Main>
-          <BurgerIngredients
-            onModalOpen={openIngredientDetails}
-            onOpenConstructor={openConstructor}
-            onIngredientAdd={handleDrop}
-            isTablet={isTablet}
-          />
-          { isConstructorOpened && (
-          <BurgerConstructor
-            onOrder={makeOrder}
-            isTablet={isTablet}
-            onCloseConstructor={closeConstructor}
-            onDropHandler={handleDrop}
-            onMove={handleMove}
-            onDelete={handleDeleteIngredient}
-          />
-          )}
-        </Main>
-        {isModalOpened && (
-        <Modal
-          onClose={closeModal}
-          header={headerText}
-        >
-          {modalContent}
-        </Modal>
-        )}
-      </DndProvider>
-    </div>
-
+    <DndProvider backend={HTML5Backend}>
+      <Router>
+        <div className={appStyles.app}>
+          <AppHeader isMenuOpen={isMenuOpen} isTablet={isTablet} />
+          <Switch>
+            <Route path="/" exact>
+              <ConstructorPage
+                onModalOpen={openIngredientDetails}
+                onOpenConstructor={openConstructor}
+                onIngredientAdd={handleDrop}
+                onOrder={makeOrder}
+                onCloseConstructor={closeConstructor}
+                onDropHandler={handleDrop}
+                onMove={handleMove}
+                onDelete={handleDeleteIngredient}
+                onClose={closeModal}
+                isTablet={isTablet}
+                isConstructorOpened={isConstructorOpened}
+                isModalOpened={isModalOpened}
+                header={headerText}
+                modalContent={modalContent}
+              />
+            </Route>
+            <Route path="/ingredients/:id" exact>
+              <IngredientPage />
+            </Route>
+            <Route path="/login" exact>
+              <LoginPage />
+            </Route>
+            <Route path="/register" exact>
+              <RegisterPage />
+            </Route>
+            <Route path="/forgot-password" exact>
+              <ForgotPasswordPage />
+            </Route>
+            <Route path="/reset-password" exact>
+              <ResetPasswordPage />
+            </Route>
+            <Route path="/profile" exact>
+              <ProfilePage />
+            </Route>
+            <Route>
+              <NotFoundPage />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </DndProvider>
   );
 }
 
