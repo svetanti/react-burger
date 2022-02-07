@@ -31,6 +31,7 @@ import {
   RegisterPage,
   ResetPasswordPage,
 } from '../../pages';
+import ProtectedRoute from '../protected-route/protected-route';
 
 function App() {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ function App() {
   const currentBurgerIngredients = [...currentBurger].filter((item) => item.type !== 'bun');
 
   let modalContent;
-  let headerText;
+  let headerText = '';
   switch (currentModal) {
     case 'ingredientDetails': {
       modalContent = <IngredientDetails />;
@@ -60,7 +61,7 @@ function App() {
       break;
     }
     default: {
-      modalContent = '';
+      modalContent = <div />;
     }
   }
 
@@ -175,9 +176,9 @@ function App() {
             <Route path="/reset-password" exact>
               <ResetPasswordPage />
             </Route>
-            <Route path="/profile" exact>
+            <ProtectedRoute path="/profile">
               <ProfilePage />
-            </Route>
+            </ProtectedRoute>
             <Route>
               <NotFoundPage />
             </Route>

@@ -1,0 +1,21 @@
+.form {
+  composes: form from "../auth-form/auth-form.module.css";
+}
+
+.buttonsWrapper {
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 28px;
+}
+
+.resetButton {
+  composes: text text_type_main-default pt-4 pb-4 pl-2 pr-2 from global;
+  background-color: transparent;
+  border: none;
+  color: #4c4cff;
+  cursor: pointer;
+}
+
+.resetButton:hover {
+  text-shadow: 0 0 10px #4c4cff;
+}

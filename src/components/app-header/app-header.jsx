@@ -22,20 +22,20 @@ function AppHeader({ isMenuOpen, isTablet }) {
           : (
             <>
               <nav className={headerStyles.nav}>
-                <NavLink to="/" className={headerStyles.link} activeClassName={headerStyles.linkActive}>
-                  <BurgerIcon type="primary" />
+                <NavLink exact to="/" className={headerStyles.link} activeClassName={headerStyles.linkActive}>
+                  <BurgerIcon type="secondary" />
                   <span>Конструктор</span>
                 </NavLink>
-                <NavLink to="/list" className={headerStyles.link} activeClassName={headerStyles.linkActive}>
+                <NavLink exact to="/orders" className={headerStyles.link} activeClassName={headerStyles.linkActive}>
                   <ListIcon type="secondary" />
                   <span>Лента заказов</span>
                 </NavLink>
               </nav>
               <span className={headerStyles.logo}><Logo /></span>
-              <button className={headerStyles.button} type="button">
+              <NavLink exact to="/profile" className={headerStyles.button} activeClassName={headerStyles.linkActive} type="button">
                 <ProfileIcon type="secondary" />
                 <span>Личный кабинет</span>
-              </button>
+              </NavLink>
             </>
           )}
       </div>
