@@ -1,7 +1,9 @@
 import React, {
   useCallback, useEffect, useState,
 } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router, Route, Switch,
+} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -32,6 +34,7 @@ import {
   ResetPasswordPage,
 } from '../../pages';
 import ProtectedRoute from '../protected-route/protected-route';
+import { getUser } from '../../services/actions/auth-actions';
 
 function App() {
   const dispatch = useDispatch();
@@ -42,8 +45,10 @@ function App() {
   const [isConstructorOpened, setIsConstructorOpened] = useState(true);
 
   const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
+  const { ingredient } = useSelector((store) => store.ingredientReducer);
   const { isModalOpened } = useSelector((store) => store.modalReducer);
   const { order } = useSelector((store) => store.orderReducer);
+  const { isAuth } = useSelector((store) => store.authReducer);
 
   const currentBurgerIngredients = [...currentBurger].filter((item) => item.type !== 'bun');
 
@@ -51,7 +56,7 @@ function App() {
   let headerText = '';
   switch (currentModal) {
     case 'ingredientDetails': {
-      modalContent = <IngredientDetails />;
+      modalContent = <IngredientDetails ingredient={ingredient} />;
       headerText = 'Детали ингредиента';
       break;
     }
@@ -82,6 +87,8 @@ function App() {
   };
 
   const closeModal = () => {
+    const prevPath = window.history.state?.prevPath;
+    window.history.replaceState(null, '', prevPath);
     dispatch({ type: DELETE_INGREDIENT_DATA });
     dispatch({ type: TOGGLE_MODAL });
   };
@@ -136,6 +143,12 @@ function App() {
   useEffect(() => {
     setIsConstructorOpened(!isTablet);
   }, [isTablet]);
+
+  useEffect(() => {
+    if (!isAuth && localStorage.getItem('jwt')) {
+      dispatch(getUser());
+    }
+  }, []);
 
   return (
     <DndProvider backend={HTML5Backend}>

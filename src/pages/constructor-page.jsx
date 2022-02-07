@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import BurgerConstructor from '../components/burger-constructor/burger-constructor';
 import BurgerIngredients from '../components/burger-ingredients/burger-ingredients';
@@ -21,11 +22,18 @@ function ConstructorPage({
   header,
   modalContent,
 }) {
+  const { location } = useHistory();
+
+  const handleModalOpen = (item) => {
+    window.history.replaceState({ prevPath: location.pathname }, `${item.name}`, `/ingredients/${item._id}`);
+    onModalOpen(item);
+  };
+
   return (
     <>
       <Main>
         <BurgerIngredients
-          onModalOpen={onModalOpen}
+          onModalOpen={handleModalOpen}
           onOpenConstructor={onOpenConstructor}
           onIngredientAdd={onIngredientAdd}
           isTablet={isTablet}

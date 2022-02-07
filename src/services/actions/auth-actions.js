@@ -63,6 +63,7 @@ export const logout = () => (dispatch) => {
   api.signOut()
     .then((res) => {
       if (res.success) {
+        localStorage.removeItem('jwt');
         setCookie('token', null, { expires: -1 });
         dispatch({ type: LOGOUT });
       }

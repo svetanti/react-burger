@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,15 +21,23 @@ function BurgerConstructor({
     },
   });
 
+  const history = useHistory();
+
   const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
   const { orderRequest } = useSelector((store) => store.orderReducer);
+  const { isAuth } = useSelector((store) => store.authReducer);
+
   const bun = currentBurger && currentBurger.find((item) => item.type === 'bun');
   const totalPrice = currentBurger.length
     ? currentBurger.reduce((prev, cur) => (cur.type !== 'bun' ? prev + cur.price : prev + cur.price * 2), 0)
     : 0;
 
   const handleOrder = () => {
-    onOrder(currentBurger);
+    if (isAuth) {
+      onOrder(currentBurger);
+    } else {
+      history.push('/login');
+    }
   };
 
   const content = useMemo(

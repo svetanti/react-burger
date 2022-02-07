@@ -9,6 +9,7 @@ function ResetPasswordPage() {
   const { isAuth } = useSelector((store) => store.authReducer);
   const dispatch = useDispatch();
   const history = useHistory();
+  const prevPathname = history.location.state?.prevPathname;
   const fields = [
     { name: 'password', type: 'password', placeholder: 'Введите новый пароль' },
     { name: 'token', type: 'text', placeholder: 'Введите код из письма' },
@@ -25,6 +26,15 @@ function ResetPasswordPage() {
     dispatch(resetPassword(form));
     history.push('/login');
   };
+
+  if (!prevPathname) {
+    return (
+      <Redirect to={{
+        pathname: '/login',
+      }}
+      />
+    );
+  }
 
   if (isAuth) {
     return (

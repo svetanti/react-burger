@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,10 +26,7 @@ function LoginPage() {
 
   if (isAuth) {
     return (
-      <Redirect to={{
-        pathname: '/',
-      }}
-      />
+      <Redirect to="/" />
     );
   }
 

@@ -5,6 +5,7 @@ export const sendOrder = (data) => fetch(`${API_URL}/orders`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
+    Authorization: `${getCookie('token')}`,
   },
   body: JSON.stringify({ ingredients: data }),
 })

@@ -22,7 +22,7 @@ function ForgotPasswordPage() {
   const handleRequestCode = (e) => {
     e.preventDefault();
     dispatch(requestResetCode(form.email));
-    history.push('/reset-password');
+    history.push({ pathname: '/reset-password', state: { prevPathname: history.location.pathname } });
   };
 
   if (isAuth) {
