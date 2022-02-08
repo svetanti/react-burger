@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './login-page.module.css';
 import AuthForm from '../components/auth-form/auth-form';
@@ -7,6 +7,7 @@ import { login } from '../services/actions/auth-actions';
 
 function LoginPage() {
   const { isAuth } = useSelector((store) => store.authReducer);
+  const { state } = useLocation();
   const dispatch = useDispatch();
   const fields = [
     { name: 'email', type: 'email', placeholder: 'E-mail' },
@@ -26,7 +27,7 @@ function LoginPage() {
 
   if (isAuth) {
     return (
-      <Redirect to="/" />
+      <Redirect to={state?.from || '/'} />
     );
   }
 
@@ -38,7 +39,7 @@ function LoginPage() {
         buttonText="Войти"
         form={form}
         onChange={handleChange}
-        onClick={handleLogin}
+        onSubmit={handleLogin}
       />
       <p className={styles.text}>
         Вы — новый пользователь?

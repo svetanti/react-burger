@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import AuthForm from '../components/auth-form/auth-form';
 import { register } from '../services/actions/auth-actions';
 import styles from './login-page.module.css';
 
 function RegisterPage() {
-  const { iaAuth } = useSelector((store) => store.authReducer);
+  const { isAuth } = useSelector((store) => store.authReducer);
+  const { state } = useLocation();
   const dispatch = useDispatch();
   const fields = [
     { name: 'name', type: 'text', placeholder: 'Имя' },
@@ -25,13 +26,9 @@ function RegisterPage() {
     dispatch(register(form));
   };
 
-  if (iaAuth) {
+  if (isAuth) {
     return (
-      <Redirect
-        to={{
-          pathname: '/',
-        }}
-      />
+      <Redirect to={state?.from || '/'} />
     );
   }
 
@@ -43,7 +40,7 @@ function RegisterPage() {
         buttonText="Зарегистрироваться"
         form={form}
         onChange={handleChange}
-        onClick={handleRegister}
+        onSubmit={handleRegister}
       />
       <p className={styles.text}>
         Уже зарегистрированы?

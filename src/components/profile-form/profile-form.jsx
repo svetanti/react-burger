@@ -4,10 +4,10 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import styles from './profile-form.module.css';
 
 function ProfileForm({
-  form, onChange, onClick, onReset, buttonsVisible,
+  form, onChange, onSubmit, onReset, buttonsVisible,
 }) {
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={onSubmit}>
       <Input
         type="text"
         name="name"
@@ -35,7 +35,7 @@ function ProfileForm({
       { buttonsVisible && (
         <div className={styles.buttonsWrapper}>
           <button type="button" className={styles.resetButton} onClick={onReset}>Отмена</button>
-          <Button onClick={onClick}>Сохранить</Button>
+          <Button>Сохранить</Button>
         </div>
       )}
     </form>
@@ -49,7 +49,7 @@ ProfileForm.propTypes = {
     password: PropTypes.string.isRequired,
   }).isRequired,
   onChange: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   onReset: PropTypes.func.isRequired,
   buttonsVisible: PropTypes.bool.isRequired,
 };

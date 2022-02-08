@@ -53,7 +53,7 @@ function ResetPasswordPage() {
         buttonText="Сохранить"
         form={form}
         onChange={handleChange}
-        onClick={handleResetPassword}
+        onSubmit={handleResetPassword}
       />
       <p className={styles.text}>
         Вспомнили пароль?

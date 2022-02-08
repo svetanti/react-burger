@@ -4,7 +4,7 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import styles from './auth-form.module.css';
 
 function AuthForm({
-  fields, buttonText, form, onChange, onClick,
+  fields, buttonText, form, onChange, onSubmit,
 }) {
   const [show, setShow] = useState(false);
 
@@ -16,7 +16,7 @@ function AuthForm({
   };
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={onSubmit}>
       { fields.map((el) => (
         <Input
           key={`${el.name}`}
@@ -29,7 +29,7 @@ function AuthForm({
           onIconClick={toggleVisibility}
         />
       )) }
-      <Button type="primary" size="medium" onClick={onClick}>{buttonText}</Button>
+      <Button type="primary" size="medium">{buttonText}</Button>
     </form>
   );
 }
@@ -39,7 +39,7 @@ AuthForm.propTypes = {
   buttonText: PropTypes.string.isRequired,
   form: PropTypes.objectOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default AuthForm;

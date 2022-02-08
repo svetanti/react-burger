@@ -42,7 +42,7 @@ function ForgotPasswordPage() {
         buttonText="Восстановить"
         form={form}
         onChange={handleChange}
-        onClick={handleRequestCode}
+        onSubmit={handleRequestCode}
       />
       <p className={styles.text}>
         Вспомнили пароль?

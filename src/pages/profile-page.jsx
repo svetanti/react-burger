@@ -51,7 +51,7 @@ function ProfilePage() {
           <ProfileForm
             form={form}
             onChange={handleChange}
-            onClick={handleUserUpdate}
+            onSubmit={handleUserUpdate}
             onReset={handleReset}
             buttonsVisible={buttonsVisible}
           />

@@ -1,17 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../services/actions/auth-actions';
+import { useSelector } from 'react-redux';
 
 function ProtectedRoute({ children, ...rest }) {
-  const dispatch = useDispatch();
   const { isAuth } = useSelector((store) => store.authReducer);
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, []);
 
   return (
     <Route

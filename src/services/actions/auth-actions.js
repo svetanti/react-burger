@@ -99,7 +99,13 @@ export const getUser = () => (dispatch) => {
     .catch(() => {
       if (localStorage.getItem('jwt')) {
         dispatch(refreshToken());
-        dispatch(getUser());
+        api.getUserInfo()
+          .then((res) => {
+            dispatch({
+              type: GET_USER,
+              user: res.user,
+            });
+          });
       } else {
         dispatch({ type: GET_USER_FAILED });
       }
