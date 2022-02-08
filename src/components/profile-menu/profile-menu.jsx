@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useRouteMatch } from 'react-router-dom';
 import styles from './profile-menu.module.css';
 
 function ProfileMenu({ onLogout }) {
+  const { url } = useRouteMatch();
   return (
     <div className={styles.wrapper}>
       <nav className={styles.nav}>
-        <NavLink to="/profile" className={styles.link} activeClassName={styles.linkActive}>Профиль</NavLink>
-        <NavLink to="/profile/orders" className={styles.link} activeClassName={styles.linkActive}>История заказов</NavLink>
+        <NavLink exact to={`${url}`} className={styles.link} activeClassName={styles.linkActive}>Профиль</NavLink>
+        <NavLink to={`${url}/orders`} className={styles.link} activeClassName={styles.linkActive}>История заказов</NavLink>
         <button
           type="button"
           className={styles.link}

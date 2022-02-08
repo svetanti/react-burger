@@ -6,7 +6,7 @@ import styles from './auth-form.module.css';
 function AuthForm({
   fields, buttonText, form, onChange, onClick,
 }) {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   const icon = show ? 'ShowIcon' : 'HideIcon';
   const type = show ? 'text' : 'password';

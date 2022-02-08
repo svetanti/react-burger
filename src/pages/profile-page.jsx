@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  BrowserRouter as Router, Route, Switch, useRouteMatch,
+  Route, Switch, useRouteMatch,
 } from 'react-router-dom';
+import Orders from '../components/orders/orders';
 import ProfileForm from '../components/profile-form/profile-form';
 import ProfileMenu from '../components/profile-menu/profile-menu';
-import { getUser, logout, updateUser } from '../services/actions/auth-actions';
+import { logout, updateUser } from '../services/actions/auth-actions';
 import styles from './profile-page.module.css';
 
 function ProfilePage() {
@@ -17,7 +18,6 @@ function ProfilePage() {
   const { user } = useSelector((store) => store.authReducer);
 
   useEffect(() => {
-    dispatch(getUser());
     setValue({ ...user, password: '' });
   }, []);
 
@@ -43,19 +43,20 @@ function ProfilePage() {
   return (
     <div className={styles.wrapper}>
       <ProfileMenu onLogout={handleLogout} />
-      <Router>
-        <Switch>
-          <Route exact path={`${path}`}>
-            <ProfileForm
-              form={form}
-              onChange={handleChange}
-              onClick={handleUserUpdate}
-              onReset={handleReset}
-              buttonsVisible={buttonsVisible}
-            />
-          </Route>
-        </Switch>
-      </Router>
+      <Switch>
+        <Route path={`${path}/orders`}>
+          <Orders />
+        </Route>
+        <Route exact path={`${path}`}>
+          <ProfileForm
+            form={form}
+            onChange={handleChange}
+            onClick={handleUserUpdate}
+            onReset={handleReset}
+            buttonsVisible={buttonsVisible}
+          />
+        </Route>
+      </Switch>
     </div>
   );
 }
