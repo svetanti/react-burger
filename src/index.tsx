@@ -4,9 +4,12 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import './index.css';
 import thunk from 'redux-thunk';
-import App from './components/app/app';
+import {
+  BrowserRouter as Router,
+} from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import rootReducer from './services/reducers';
+import App from './components/app/app';
 
 const store = configureStore({
   reducer: rootReducer,
@@ -17,7 +20,9 @@ const store = configureStore({
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),

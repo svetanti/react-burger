@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux';
-import {
-  currentBurgerReducer, ingredientsReducer, ingredientReducer, orderReducer, modalReducer,
-} from './reducers';
+import modalReducer from './modal-reducer';
+import authReducer from './auth-reducer';
+import ingredientsReducer from './ingredients-reducer';
+import currentBurgerReducer from './current-burger-reducer';
+import ingredientReducer from './ingredient-reducer';
+import orderReducer from './order-reducer';
 
 const rootReducer = combineReducers({
   ingredientsReducer,
@@ -9,6 +12,7 @@ const rootReducer = combineReducers({
   ingredientReducer,
   orderReducer,
   modalReducer,
+  authReducer,
 });
 
 export default rootReducer;

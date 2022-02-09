@@ -1,15 +1,15 @@
 import React, {
   useCallback, useEffect, useState,
 } from 'react';
+import {
+  Route, Switch, useHistory, useLocation,
+} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
 import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import appStyles from './app.module.css';
-import Main from '../main/main';
-import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import useWindowSize from '../../hooks/useWindowSize';
@@ -17,65 +17,52 @@ import {
   ADD_INGREDIENT,
   ADD_INGREDIENT_DATA,
   DELETE_INGREDIENT,
-  DELETE_INGREDIENT_DATA,
   MOVE_CONSTRUCTOR_ELEMENT,
   getIngredients,
-  TOGGLE_MODAL,
   getOrder,
 } from '../../services/actions/actions';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
+import {
+  ConstructorPage,
+  ForgotPasswordPage,
+  LoginPage,
+  NotFoundPage,
+  ProfilePage,
+  RegisterPage,
+  ResetPasswordPage,
+} from '../../pages';
+import ProtectedRoute from '../protected-route/protected-route';
+import { getUser } from '../../services/actions/auth-actions';
+import Spinner from '../ui/spinner/spinner';
+import ModalSwitch from '../modal-switch/modal-switch';
 
 function App() {
   const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  const location = useLocation();
+  const background = location.state && location.state.background;
+
   const [isMenuOpen] = useState(false);
-  const [currentModal, setCurrentModal] = useState('');
   const { width } = useWindowSize();
   const isTablet = width <= 1024;
   const [isConstructorOpened, setIsConstructorOpened] = useState(true);
 
   const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
-  const { isModalOpened } = useSelector((store) => store.modalReducer);
+  const { ingredientsRequest } = useSelector((store) => store.ingredientsReducer);
   const { order } = useSelector((store) => store.orderReducer);
+  const { isAuth } = useSelector((store) => store.authReducer);
 
   const currentBurgerIngredients = [...currentBurger].filter((item) => item.type !== 'bun');
 
-  let modalContent;
-  let headerText;
-  switch (currentModal) {
-    case 'ingredientDetails': {
-      modalContent = <IngredientDetails />;
-      headerText = 'Детали ингредиента';
-      break;
-    }
-    case 'orderDetails': {
-      modalContent = <OrderDetails orderNumber={order.number} />;
-      headerText = isTablet ? 'Заказ оформлен' : '';
-      break;
-    }
-    default: {
-      modalContent = '';
-    }
-  }
+  const headerText = isTablet ? 'Заказ оформлен' : '';
 
   const openIngredientDetails = (item) => {
     dispatch({ type: ADD_INGREDIENT_DATA, item });
-    dispatch({ type: TOGGLE_MODAL });
-    setCurrentModal('ingredientDetails');
-  };
-
-  const openOrderDetails = () => {
-    setCurrentModal('orderDetails');
-    dispatch({ type: TOGGLE_MODAL });
   };
 
   const makeOrder = (orderData) => {
     dispatch(getOrder(orderData));
-    openOrderDetails();
-  };
-
-  const closeModal = () => {
-    dispatch({ type: DELETE_INGREDIENT_DATA });
-    dispatch({ type: TOGGLE_MODAL });
   };
 
   const openConstructor = () => {
@@ -129,39 +116,72 @@ function App() {
     setIsConstructorOpened(!isTablet);
   }, [isTablet]);
 
-  return (
-    <div className={appStyles.app}>
-      <DndProvider backend={HTML5Backend}>
-        <AppHeader isMenuOpen={isMenuOpen} isTablet={isTablet} />
-        <Main>
-          <BurgerIngredients
-            onModalOpen={openIngredientDetails}
-            onOpenConstructor={openConstructor}
-            onIngredientAdd={handleDrop}
-            isTablet={isTablet}
-          />
-          { isConstructorOpened && (
-          <BurgerConstructor
-            onOrder={makeOrder}
-            isTablet={isTablet}
-            onCloseConstructor={closeConstructor}
-            onDropHandler={handleDrop}
-            onMove={handleMove}
-            onDelete={handleDeleteIngredient}
-          />
-          )}
-        </Main>
-        {isModalOpened && (
-        <Modal
-          onClose={closeModal}
-          header={headerText}
-        >
-          {modalContent}
-        </Modal>
-        )}
-      </DndProvider>
-    </div>
+  useEffect(() => {
+    if (!isAuth && localStorage.getItem('jwt')) {
+      dispatch(getUser());
+    }
+  }, []);
 
+  useEffect(() => {
+    if (order.number) {
+      history.push(`/profile/orders/${order.number}`, { background: location });
+    }
+  }, [order]);
+
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <div className={appStyles.app}>
+        <AppHeader isMenuOpen={isMenuOpen} isTablet={isTablet} />
+        <ModalSwitch headerText={headerText}>
+          <Switch location={background || location}>
+            <Route path="/" exact>
+              { ingredientsRequest
+                ? (<Spinner />)
+                : (
+                  <ConstructorPage
+                    onModalOpen={openIngredientDetails}
+                    onOpenConstructor={openConstructor}
+                    onIngredientAdd={handleDrop}
+                    onOrder={makeOrder}
+                    onCloseConstructor={closeConstructor}
+                    onDropHandler={handleDrop}
+                    onMove={handleMove}
+                    onDelete={handleDeleteIngredient}
+                    isTablet={isTablet}
+                    isConstructorOpened={isConstructorOpened}
+                    header={headerText}
+                    orderNumber={order.number}
+                  />
+                )}
+            </Route>
+            <Route path="/ingredients/:id" exact>
+              <IngredientDetails />
+            </Route>
+            <Route path="/profile/orders/:orderNumber" exact>
+              <OrderDetails />
+            </Route>
+            <Route path="/login" exact>
+              <LoginPage />
+            </Route>
+            <Route path="/register" exact>
+              <RegisterPage />
+            </Route>
+            <Route path="/forgot-password" exact>
+              <ForgotPasswordPage />
+            </Route>
+            <Route path="/reset-password" exact>
+              <ResetPasswordPage />
+            </Route>
+            <ProtectedRoute path="/profile">
+              <ProfilePage />
+            </ProtectedRoute>
+            <Route>
+              <NotFoundPage />
+            </Route>
+          </Switch>
+        </ModalSwitch>
+      </div>
+    </DndProvider>
   );
 }
 

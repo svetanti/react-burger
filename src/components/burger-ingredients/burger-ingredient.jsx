@@ -1,11 +1,15 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useDrag } from 'react-dnd';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import burgerIngredientsStyles from './burger-ingredients.module.css';
+import styles from './burger-ingredients.module.css';
 
 function BurgerIngredient({ el, onClick }) {
+  const location = useLocation();
+  const ingredientId = el._id;
+
   const [, ref] = useDrag({
     type: 'ingredient',
     item: el,
@@ -13,23 +17,32 @@ function BurgerIngredient({ el, onClick }) {
   const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
   const counter = currentBurger.filter((item) => item._id === el._id)?.length;
   return (
-    <div
-      className={burgerIngredientsStyles.item}
-      id={el._id}
-      role="presentation"
-      onClick={onClick}
-      onKeyDown={onClick}
-      ref={ref}
-      draggable
+    <Link
+      key={ingredientId}
+      to={{
+        pathname: `/ingredients/${ingredientId}`,
+        state: { background: location },
+      }}
+      className={styles.link}
     >
-      <Counter count={counter} size="default" />
-      <img src={el.image} className={burgerIngredientsStyles.image} alt={el.name} />
-      <p className={burgerIngredientsStyles.price}>
-        <span>{el.price}</span>
-        <CurrencyIcon type="primary" />
-      </p>
-      <p className={burgerIngredientsStyles.text}>{el.name}</p>
-    </div>
+      <div
+        className={styles.item}
+        id={el._id}
+        role="presentation"
+        onClick={onClick}
+        onKeyDown={onClick}
+        ref={ref}
+        draggable
+      >
+        <Counter count={counter} size="default" />
+        <img src={el.image} className={styles.image} alt={el.name} />
+        <p className={styles.price}>
+          <span>{el.price}</span>
+          <CurrencyIcon type="primary" />
+        </p>
+        <p className={styles.text}>{el.name}</p>
+      </div>
+    </Link>
   );
 }
 

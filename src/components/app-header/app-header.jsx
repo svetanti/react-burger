@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   Logo, BurgerIcon, ListIcon, ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -21,20 +22,20 @@ function AppHeader({ isMenuOpen, isTablet }) {
           : (
             <>
               <nav className={headerStyles.nav}>
-                <a href="#" className={headerStyles.link}>
-                  <BurgerIcon type="primary" />
+                <NavLink exact to="/" className={headerStyles.link} activeClassName={headerStyles.linkActive}>
+                  <BurgerIcon type="secondary" />
                   <span>Конструктор</span>
-                </a>
-                <a href="#" className={headerStyles.link}>
+                </NavLink>
+                <NavLink exact to="/orders" className={headerStyles.link} activeClassName={headerStyles.linkActive}>
                   <ListIcon type="secondary" />
                   <span>Лента заказов</span>
-                </a>
+                </NavLink>
               </nav>
               <span className={headerStyles.logo}><Logo /></span>
-              <button className={headerStyles.button} type="button">
+              <NavLink exact to="/profile" className={headerStyles.button} activeClassName={headerStyles.linkActive} type="button">
                 <ProfileIcon type="secondary" />
                 <span>Личный кабинет</span>
-              </button>
+              </NavLink>
             </>
           )}
       </div>
