@@ -1,9 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import Done from '../ui/done/done';
 import orderDetailsStyles from './order-details.module.css';
 
-function OrderDetails({ orderNumber }) {
+function OrderDetails() {
+  const { orderNumber } = useParams();
+
   return (
     <div className={orderDetailsStyles.wrapper}>
       <h2 className={orderDetailsStyles.number}>{orderNumber}</h2>
@@ -14,9 +16,5 @@ function OrderDetails({ orderNumber }) {
     </div>
   );
 }
-
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number.isRequired,
-};
 
 export default OrderDetails;

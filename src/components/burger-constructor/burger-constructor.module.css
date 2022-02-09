@@ -58,6 +58,11 @@
   column-gap: 40px;
 }
 
+.link {
+  text-decoration: none;
+  color: #fff;
+}
+
 .price {
   composes: text text_type_digits-medium from global;
   composes: price from "../burger-ingredients/burger-ingredients.module.css";

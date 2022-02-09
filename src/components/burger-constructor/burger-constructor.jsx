@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   ConstructorElement, CurrencyIcon, Button, CloseIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import burgerConstructorStyles from './burger-constructor.module.css';
+import styles from './burger-constructor.module.css';
 import BurgerConstructorMobile from './burger-constructor-mobile';
 import BurgerConstructorElement from './burger-constructor-element';
 
@@ -57,11 +57,11 @@ function BurgerConstructor({
   );
 
   return (
-    <section className={burgerConstructorStyles.container} ref={dropTarget}>
+    <section className={styles.container} ref={dropTarget}>
       { isTablet
         ? (
           <>
-            <div className={burgerConstructorStyles.mobilePanel}>
+            <div className={styles.mobilePanel}>
               <span>Заказ</span>
               <CloseIcon onClick={onCloseConstructor} />
             </div>
@@ -71,7 +71,7 @@ function BurgerConstructor({
         : (
           <>
             { bun && (
-            <div className={burgerConstructorStyles.ingridientWrapper}>
+            <div className={styles.ingridientWrapper}>
               <ConstructorElement
                 type="top"
                 isLocked
@@ -81,11 +81,11 @@ function BurgerConstructor({
               />
             </div>
             )}
-            <ul className={burgerConstructorStyles.list}>
+            <ul className={styles.list}>
               {content}
             </ul>
             {bun && (
-            <div className={burgerConstructorStyles.ingridientWrapper}>
+            <div className={styles.ingridientWrapper}>
               <ConstructorElement
                 type="bottom"
                 isLocked
@@ -97,8 +97,8 @@ function BurgerConstructor({
             )}
           </>
         )}
-      <div className={burgerConstructorStyles.totalWrapper}>
-        <p className={burgerConstructorStyles.price}>
+      <div className={styles.totalWrapper}>
+        <p className={styles.price}>
           <span>{totalPrice}</span>
           <CurrencyIcon type="primary" />
         </p>
@@ -109,7 +109,6 @@ function BurgerConstructor({
           disabled={!currentBurger.length || orderRequest || !bun}
         >
           {isTablet ? 'Заказать' : 'Оформить заказ'}
-
         </Button>
       </div>
     </section>

@@ -2,7 +2,7 @@ import React, {
   useCallback, useEffect, useState,
 } from 'react';
 import {
-  BrowserRouter as Router, Route, Switch,
+  Route, Switch, useHistory, useLocation,
 } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
@@ -17,16 +17,13 @@ import {
   ADD_INGREDIENT,
   ADD_INGREDIENT_DATA,
   DELETE_INGREDIENT,
-  DELETE_INGREDIENT_DATA,
   MOVE_CONSTRUCTOR_ELEMENT,
   getIngredients,
-  TOGGLE_MODAL,
   getOrder,
 } from '../../services/actions/actions';
 import {
   ConstructorPage,
   ForgotPasswordPage,
-  IngredientPage,
   LoginPage,
   NotFoundPage,
   ProfilePage,
@@ -35,62 +32,37 @@ import {
 } from '../../pages';
 import ProtectedRoute from '../protected-route/protected-route';
 import { getUser } from '../../services/actions/auth-actions';
+import Spinner from '../ui/spinner/spinner';
+import ModalSwitch from '../modal-switch/modal-switch';
 
 function App() {
   const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  const location = useLocation();
+  const background = location.state && location.state.background;
+
   const [isMenuOpen] = useState(false);
-  const [currentModal, setCurrentModal] = useState('');
   const { width } = useWindowSize();
   const isTablet = width <= 1024;
   const [isConstructorOpened, setIsConstructorOpened] = useState(true);
 
   const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
-  const { ingredient } = useSelector((store) => store.ingredientReducer);
-  const { isModalOpened } = useSelector((store) => store.modalReducer);
+  const { ingredientsRequest } = useSelector((store) => store.ingredientsReducer);
   const { order } = useSelector((store) => store.orderReducer);
   const { isAuth } = useSelector((store) => store.authReducer);
 
   const currentBurgerIngredients = [...currentBurger].filter((item) => item.type !== 'bun');
 
-  let modalContent;
-  let headerText = '';
-  switch (currentModal) {
-    case 'ingredientDetails': {
-      modalContent = <IngredientDetails ingredient={ingredient} />;
-      headerText = 'Детали ингредиента';
-      break;
-    }
-    case 'orderDetails': {
-      modalContent = <OrderDetails orderNumber={order.number} />;
-      headerText = isTablet ? 'Заказ оформлен' : '';
-      break;
-    }
-    default: {
-      modalContent = <div />;
-    }
-  }
+  const headerText = isTablet ? 'Заказ оформлен' : '';
 
   const openIngredientDetails = (item) => {
     dispatch({ type: ADD_INGREDIENT_DATA, item });
-    dispatch({ type: TOGGLE_MODAL });
-    setCurrentModal('ingredientDetails');
-  };
-
-  const openOrderDetails = () => {
-    setCurrentModal('orderDetails');
-    dispatch({ type: TOGGLE_MODAL });
   };
 
   const makeOrder = (orderData) => {
     dispatch(getOrder(orderData));
-    openOrderDetails();
-  };
-
-  const closeModal = () => {
-    const prevPath = window.history.state?.prevPath;
-    window.history.replaceState(null, '', prevPath);
-    dispatch({ type: DELETE_INGREDIENT_DATA });
-    dispatch({ type: TOGGLE_MODAL });
   };
 
   const openConstructor = () => {
@@ -150,32 +122,43 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    if (order.number) {
+      history.push(`/profile/orders/${order.number}`, { background: location });
+    }
+  }, [order]);
+
   return (
     <DndProvider backend={HTML5Backend}>
-      <Router>
-        <div className={appStyles.app}>
-          <AppHeader isMenuOpen={isMenuOpen} isTablet={isTablet} />
-          <Switch>
+      <div className={appStyles.app}>
+        <AppHeader isMenuOpen={isMenuOpen} isTablet={isTablet} />
+        <ModalSwitch headerText={headerText}>
+          <Switch location={background || location}>
             <Route path="/" exact>
-              <ConstructorPage
-                onModalOpen={openIngredientDetails}
-                onOpenConstructor={openConstructor}
-                onIngredientAdd={handleDrop}
-                onOrder={makeOrder}
-                onCloseConstructor={closeConstructor}
-                onDropHandler={handleDrop}
-                onMove={handleMove}
-                onDelete={handleDeleteIngredient}
-                onClose={closeModal}
-                isTablet={isTablet}
-                isConstructorOpened={isConstructorOpened}
-                isModalOpened={isModalOpened}
-                header={headerText}
-                modalContent={modalContent}
-              />
+              { ingredientsRequest
+                ? (<Spinner />)
+                : (
+                  <ConstructorPage
+                    onModalOpen={openIngredientDetails}
+                    onOpenConstructor={openConstructor}
+                    onIngredientAdd={handleDrop}
+                    onOrder={makeOrder}
+                    onCloseConstructor={closeConstructor}
+                    onDropHandler={handleDrop}
+                    onMove={handleMove}
+                    onDelete={handleDeleteIngredient}
+                    isTablet={isTablet}
+                    isConstructorOpened={isConstructorOpened}
+                    header={headerText}
+                    orderNumber={order.number}
+                  />
+                )}
             </Route>
             <Route path="/ingredients/:id" exact>
-              <IngredientPage />
+              <IngredientDetails />
+            </Route>
+            <Route path="/profile/orders/:orderNumber" exact>
+              <OrderDetails />
             </Route>
             <Route path="/login" exact>
               <LoginPage />
@@ -196,8 +179,8 @@ function App() {
               <NotFoundPage />
             </Route>
           </Switch>
-        </div>
-      </Router>
+        </ModalSwitch>
+      </div>
     </DndProvider>
   );
 }

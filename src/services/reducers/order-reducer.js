@@ -2,6 +2,7 @@ import {
   GET_ORDER_SUCCESS,
   GET_ORDER_REQUEST,
   GET_ORDER_ERROR,
+  DELETE_ORDER_DATA,
 } from '../actions/actions';
 
 const initialState = {
@@ -36,6 +37,14 @@ const orderReducer = (state = initialState, action = {}) => {
         },
         orderRequest: false,
         orderFaied: true,
+      };
+    }
+    case DELETE_ORDER_DATA: {
+      return {
+        ...state,
+        order: {
+          number: 0,
+        },
       };
     }
     default: {

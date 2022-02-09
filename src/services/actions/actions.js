@@ -11,7 +11,9 @@ export const DELETE_INGREDIENT_DATA = 'DELETE_INGREDIENT_DATA';
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_ERROR = 'GET_ORDER_ERROR';
+export const DELETE_ORDER_DATA = 'DELETE_ORDER_DATA';
 export const TOGGLE_MODAL = 'TOGGLE_MODAL';
+export const RESET_ITEM_TO_VIEW = 'RESET_ITEM_TO_VIEW';
 
 export const getIngredients = () => (dispatch) => {
   dispatch({ type: GET_INGREDIENTS_REQUEST });

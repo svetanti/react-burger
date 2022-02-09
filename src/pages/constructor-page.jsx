@@ -1,10 +1,8 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import BurgerConstructor from '../components/burger-constructor/burger-constructor';
 import BurgerIngredients from '../components/burger-ingredients/burger-ingredients';
 import Main from '../components/main/main';
-import Modal from '../components/modal/modal';
 
 function ConstructorPage({
   onModalOpen,
@@ -17,29 +15,23 @@ function ConstructorPage({
   onDropHandler,
   onMove,
   onDelete,
-  isModalOpened,
-  onClose,
-  header,
-  modalContent,
+  orderNumber,
 }) {
-  const { location } = useHistory();
-
-  const handleModalOpen = (item) => {
-    window.history.replaceState({ prevPath: location.pathname }, `${item.name}`, `/ingredients/${item._id}`);
+  const openIngredientDetails = (item) => {
     onModalOpen(item);
   };
 
   return (
-    <>
-      <Main>
-        <BurgerIngredients
-          onModalOpen={handleModalOpen}
-          onOpenConstructor={onOpenConstructor}
-          onIngredientAdd={onIngredientAdd}
-          isTablet={isTablet}
-        />
-        { isConstructorOpened && (
+    <Main>
+      <BurgerIngredients
+        onOpenIngredientDetails={openIngredientDetails}
+        onOpenConstructor={onOpenConstructor}
+        onIngredientAdd={onIngredientAdd}
+        isTablet={isTablet}
+      />
+      { isConstructorOpened && (
         <BurgerConstructor
+          orderNumber={orderNumber}
           onOrder={onOrder}
           isTablet={isTablet}
           onCloseConstructor={onCloseConstructor}
@@ -47,17 +39,8 @@ function ConstructorPage({
           onMove={onMove}
           onDelete={onDelete}
         />
-        )}
-      </Main>
-      {isModalOpened && (
-      <Modal
-        onClose={onClose}
-        header={header}
-      >
-        {modalContent}
-      </Modal>
       )}
-    </>
+    </Main>
   );
 }
 
@@ -72,10 +55,7 @@ ConstructorPage.propTypes = {
   onDropHandler: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  isModalOpened: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  header: PropTypes.string.isRequired,
-  modalContent: PropTypes.element.isRequired,
+  orderNumber: PropTypes.number.isRequired,
 };
 
 export default ConstructorPage;
