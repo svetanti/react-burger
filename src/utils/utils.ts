@@ -1,3 +1,5 @@
+import { TrequestOptions } from '../types/types';
+
 export function on<T extends Window | Document | HTMLElement | EventTarget>(
   obj: T | null,
   ...args: Parameters<T['addEventListener']> | [string, Function | null, ...any]
@@ -51,7 +53,7 @@ export function getCookie(name: string) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export const makeRequest = (url: string, oprions: object) => fetch(url, oprions)
+export const makeRequest = (url: string, oprions?: TrequestOptions) => fetch(url, oprions)
   .then((res) => {
     if (!res.ok) {
       return res.json()
