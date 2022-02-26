@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
 import ConstructorElementMobile from '../constructor-element-mobile/constructor-element-mobile';
 import burgerConstructorStyles from '../burger-constructor/burger-constructor.module.css';
 import { TRootState } from '../../services/reducers';
@@ -21,7 +20,7 @@ const BurgerConstructorMobile:FC = () => {
       )}
       <ul className={burgerConstructorStyles.list}>
         {currentBurger.filter((item: TIngredient) => item.type !== 'bun').map((el: TIngredient) => (
-          <li className={burgerConstructorStyles.ingredient} key={`${el._id}_${uuidv4()}`}>
+          <li className={burgerConstructorStyles.ingredient} key={el.uuid}>
             <ConstructorElementMobile
               text={el.name}
               price={el.price}

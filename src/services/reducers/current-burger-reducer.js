@@ -1,5 +1,6 @@
 import {
   ADD_INGREDIENT,
+  CLEAR_CURRENT_BURGER,
   DELETE_INGREDIENT,
   MOVE_CONSTRUCTOR_ELEMENT,
 } from '../actions/actions';
@@ -13,7 +14,7 @@ const currentBurgerReducer = (state = initialState, action = {}) => {
     case ADD_INGREDIENT: {
       return {
         ...state,
-        currentBurger: [...state.currentBurger, action.item],
+        currentBurger: [...state.currentBurger, action.payload],
       };
     }
     case DELETE_INGREDIENT: {
@@ -26,6 +27,12 @@ const currentBurgerReducer = (state = initialState, action = {}) => {
       return ({
         ...state,
         currentBurger: action.payload,
+      });
+    }
+    case CLEAR_CURRENT_BURGER: {
+      return ({
+        ...state,
+        currentBurger: [],
       });
     }
     default: {

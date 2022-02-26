@@ -1,6 +1,4 @@
-import React, {
-  useCallback, useEffect, useState,
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Route, Switch, useHistory, useLocation,
 } from 'react-router-dom';
@@ -8,18 +6,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
+import { v4 as uuidv4 } from 'uuid';
 import AppHeader from '../app-header/app-header';
 import appStyles from './app.module.css';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import useWindowSize from '../../hooks/useWindowSize';
 import {
-  ADD_INGREDIENT,
-  ADD_INGREDIENT_DATA,
-  DELETE_INGREDIENT,
-  MOVE_CONSTRUCTOR_ELEMENT,
   getIngredients,
   getOrder,
+  addIngredientData,
+  deleteIngredient,
+  addIngredient,
+  moveConstructorElement,
 } from '../../services/actions/actions';
 import {
   ConstructorPage,
@@ -52,7 +51,7 @@ const App = () => {
 
   const { currentBurger } = useSelector((store: TRootState) => store.currentBurgerReducer);
   const { ingredientsRequest } = useSelector((store: TRootState) => store.ingredientsReducer);
-  const { order } = useSelector((store: TRootState) => store.orderReducer);
+  const { order, isOrderRequest } = useSelector((store: TRootState) => store.orderReducer);
   const { isAuth } = useSelector((store: TRootState) => store.authReducer);
 
   const currentBurgerIngredients = [...currentBurger].filter((item) => item.type !== 'bun');
@@ -60,7 +59,7 @@ const App = () => {
   const headerText = isTablet ? 'Заказ оформлен' : '';
 
   const openIngredientDetails = (item: TIngredient) => {
-    dispatch({ type: ADD_INGREDIENT_DATA, item });
+    dispatch(addIngredientData(item));
   };
 
   const makeOrder = (orderData: Array<TIngredient>) => {
@@ -80,10 +79,10 @@ const App = () => {
       const bun = currentBurger.find((el: TIngredient) => el.type === 'bun');
       const index = currentBurger.indexOf(bun);
       if (index !== -1) {
-        dispatch({ type: DELETE_INGREDIENT, index });
+        dispatch(deleteIngredient(index));
       }
     }
-    dispatch({ type: ADD_INGREDIENT, item });
+    dispatch(addIngredient({ ...item, uuid: uuidv4() }));
   };
 
   const handleMove = useCallback((dragIndex, hoverIndex) => {
@@ -102,12 +101,12 @@ const App = () => {
           [hoverIndex, 0, dragElement],
         ],
       });
-    dispatch({ type: MOVE_CONSTRUCTOR_ELEMENT, payload });
+    dispatch(moveConstructorElement(payload));
   }, [currentBurgerIngredients]);
 
   const handleDeleteIngredient = (item: TIngredient) => {
     const index = currentBurger.indexOf(item);
-    dispatch({ type: DELETE_INGREDIENT, index });
+    dispatch(deleteIngredient(index));
   };
 
   useEffect(() => {
@@ -137,7 +136,7 @@ const App = () => {
         <ModalSwitch headerText={headerText}>
           <Switch location={background || location}>
             <Route path="/" exact>
-              { ingredientsRequest
+              { ingredientsRequest || isOrderRequest
                 ? (<Spinner />)
                 : (
                   <ConstructorPage

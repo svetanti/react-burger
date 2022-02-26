@@ -7,7 +7,9 @@ import Modal from '../modal/modal';
 import ProtectedRoute from '../protected-route/protected-route';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
-import { DELETE_INGREDIENT_DATA, DELETE_ORDER_DATA } from '../../services/actions/actions';
+import {
+  deleteIngredientData, deleteOrderData,
+} from '../../services/actions/actions';
 import { TLocationState } from '../../types/types';
 
 type TModalSwitchProps = {
@@ -25,12 +27,12 @@ const ModalSwitch:FC<TModalSwitchProps> = ({ children, headerText }) => {
   };
 
   const closeIngredient = () => {
-    dispatch({ type: DELETE_INGREDIENT_DATA });
+    dispatch(deleteIngredientData());
     handleModalClose();
   };
 
   const closeOrder = () => {
-    dispatch({ type: DELETE_ORDER_DATA });
+    dispatch(deleteOrderData());
     handleModalClose();
   };
 

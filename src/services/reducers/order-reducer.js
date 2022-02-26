@@ -9,8 +9,8 @@ const initialState = {
   order: {
     number: 0,
   },
-  orderRequest: false,
-  orderFaied: false,
+  isOrderRequest: false,
+  isOrderFaied: false,
 };
 
 const orderReducer = (state = initialState, action = {}) => {
@@ -18,15 +18,15 @@ const orderReducer = (state = initialState, action = {}) => {
     case GET_ORDER_REQUEST: {
       return {
         ...state,
-        orderRequest: true,
+        isOrderRequest: true,
       };
     }
     case GET_ORDER_SUCCESS: {
       return {
         ...state,
         order: action.order,
-        orderRequest: false,
-        orderFaied: false,
+        isOrderRequest: false,
+        isOrderFaied: false,
       };
     }
     case GET_ORDER_ERROR: {
@@ -35,8 +35,8 @@ const orderReducer = (state = initialState, action = {}) => {
         order: {
           number: 0,
         },
-        orderRequest: false,
-        orderFaied: true,
+        isOrderRequest: false,
+        isOrderFaied: true,
       };
     }
     case DELETE_ORDER_DATA: {

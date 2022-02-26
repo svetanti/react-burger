@@ -18,7 +18,9 @@ const AppHeader:FC<TAppHeaderProps> = ({ isMenuOpen, isTablet }) => (
     <div className={headerStyles.contentWrapper}>
       { isTablet ? (
         <>
-          <MobileLogo />
+          <NavLink exact to="/">
+            <MobileLogo />
+          </NavLink>
           <BurgerMenu isMenuOpen={isMenuOpen} />
         </>
       )
@@ -34,7 +36,9 @@ const AppHeader:FC<TAppHeaderProps> = ({ isMenuOpen, isTablet }) => (
                 <span>Лента заказов</span>
               </NavLink>
             </nav>
-            <span className={headerStyles.logo}><Logo /></span>
+            <NavLink exact to="/">
+              <span className={headerStyles.logo}><Logo /></span>
+            </NavLink>
             <NavLink exact to="/profile" className={headerStyles.button} activeClassName={headerStyles.linkActive} type="button">
               <ProfileIcon type="secondary" />
               <span>Личный кабинет</span>

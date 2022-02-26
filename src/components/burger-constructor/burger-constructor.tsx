@@ -2,7 +2,6 @@ import React, { FC, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useDrop } from 'react-dnd';
-import { v4 as uuidv4 } from 'uuid';
 import {
   ConstructorElement, CurrencyIcon, Button, CloseIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -34,7 +33,7 @@ const BurgerConstructor:FC<TBurgerConstructorProps> = ({
   const history = useHistory();
 
   const { currentBurger } = useSelector((store: TRootState) => store.currentBurgerReducer);
-  const { orderRequest } = useSelector((store: TRootState) => store.orderReducer);
+  const { isOrderRequest } = useSelector((store: TRootState) => store.orderReducer);
   const { isAuth } = useSelector((store: TRootState) => store.authReducer);
 
   const bun = currentBurger && currentBurger.find((item: TIngredient) => item.type === 'bun');
@@ -56,8 +55,8 @@ const BurgerConstructor:FC<TBurgerConstructorProps> = ({
       .map((el: TIngredient, index: number) => (
         <BurgerConstructorElement
           el={el}
-          id={`${el._id}_${uuidv4()}`}
-          key={`${el._id}_${uuidv4()}`}
+          id={el.uuid as string}
+          key={el.uuid as string}
           index={index}
           onDelete={onDelete}
           onMove={onMove}
@@ -85,7 +84,7 @@ const BurgerConstructor:FC<TBurgerConstructorProps> = ({
               <ConstructorElement
                 type="top"
                 isLocked
-                text={bun.name}
+                text={`${bun.name} (верх)`}
                 price={bun.price}
                 thumbnail={bun.image}
               />
@@ -99,7 +98,7 @@ const BurgerConstructor:FC<TBurgerConstructorProps> = ({
               <ConstructorElement
                 type="bottom"
                 isLocked
-                text={bun.name}
+                text={`${bun.name} (низ)`}
                 price={bun.price}
                 thumbnail={bun.image}
               />
@@ -116,7 +115,7 @@ const BurgerConstructor:FC<TBurgerConstructorProps> = ({
           type="primary"
           size="medium"
           onClick={handleOrder}
-          disabled={!currentBurger.length || orderRequest || !bun}
+          disabled={!currentBurger.length || isOrderRequest || !bun}
         >
           {isTablet ? 'Заказать' : 'Оформить заказ'}
         </Button>

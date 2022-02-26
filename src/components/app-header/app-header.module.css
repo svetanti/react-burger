@@ -28,6 +28,7 @@
   text-decoration: none;
   background-color: transparent;
   border: none;
+  cursor: pointer;
 }
 
 .linkActive {
@@ -36,6 +37,10 @@
 
 .linkActive svg {
   fill: #fff;
+}
+
+.logo {
+  cursor: pointer;
 }
 
 .button {
