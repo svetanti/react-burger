@@ -26,125 +26,132 @@ export const UPDATE_TOKEN = 'UPDATE_TOKEN';
 export const UPDATE_TOKEN_REQUEST = 'UPDATE_TOKEN_REQUEST';
 export const UPDATE_TOKEN_FAILED = 'UPDATE_TOKEN_FAILED';
 
+const registerUserRequest = () => ({ type: REGISTER_USER_REQUEST });
+const registerUser = (user) => ({ type: REGISTER_USER, user });
+const registerUserFailed = () => ({ type: REGISTER_USER_FAILED });
+const loginUserRequest = () => ({ type: LOGIN_USER_REQUEST });
+const loginUser = (user) => ({ type: LOGIN_USER, user });
+const loginUserFailed = () => ({ type: LOGIN_USER_FAILED });
+const logoutRequest = () => ({ type: LOGOUT_REQUEST });
+const logoutSuccess = () => ({ type: LOGOUT });
+const logoutFailed = () => ({ type: LOGOUT_FAILED });
+const updateTokenRequest = () => ({ type: UPDATE_TOKEN_REQUEST });
+const updateTokenSuccess = (user) => ({ type: UPDATE_TOKEN, user });
+const updateTokenFailed = () => ({ type: UPDATE_TOKEN_FAILED });
+const getUserRequest = () => ({ type: GET_USER_REQUEST });
+const getUserSuccess = (user) => ({ type: GET_USER, user });
+const getUserFailed = () => ({ type: GET_USER_FAILED });
+const updateUserRequest = () => ({ type: UPDATE_USER_REQUEST });
+const updateUserSuccess = (user) => ({ type: UPDATE_USER, user });
+const updateUserFailed = () => ({ type: UPDATE_USER_FAILED });
+const requestCodeRequest = () => ({ type: REQUEST_CODE_REQUEST });
+const requestCodeSuccess = () => ({ type: REQUEST_CODE });
+const requestCodeFailed = () => ({ type: REQUEST_CODE_FAILED });
+const resetPasswordRequest = () => ({ type: RESET_PASSWORD_REQUEST });
+const resetPasswordSuccess = () => ({ type: RESET_PASSWORD });
+const resetPasswordFailed = () => ({ type: RESET_PASSWORD_FAILED });
+
 export const register = (data) => (dispatch) => {
-  dispatch({ type: REGISTER_USER_REQUEST });
+  dispatch(registerUserRequest());
   api.register(data)
     .then((res) => {
       if (res.success) {
         setCookie('token', res.accessToken, { expires: 1200 });
         localStorage.setItem('jwt', res.refreshToken);
-        dispatch({
-          type: REGISTER_USER,
-          user: res.user,
-        });
+        dispatch(registerUser(res.user));
       }
     })
-    .catch(() => dispatch({ type: REGISTER_USER_FAILED }));
+    .catch(() => dispatch(registerUserFailed()));
 };
 
 export const login = (data) => (dispatch) => {
-  dispatch({ type: LOGIN_USER_REQUEST });
+  dispatch(loginUserRequest());
   api.signIn(data)
     .then((res) => {
       if (res.success) {
         setCookie('token', res.accessToken, { expires: 1200 });
         localStorage.setItem('jwt', res.refreshToken);
-        dispatch({
-          type: LOGIN_USER,
-          user: res.user,
-        });
+        dispatch(loginUser(res.user));
       }
     })
-    .catch(() => dispatch({ type: LOGIN_USER_FAILED }));
+    .catch(() => dispatch(loginUserFailed()));
 };
 
 export const logout = () => (dispatch) => {
-  dispatch({ type: LOGOUT_REQUEST });
+  dispatch(logoutRequest());
   api.signOut()
     .then((res) => {
       if (res.success) {
         localStorage.removeItem('jwt');
         setCookie('token', null, { expires: -1 });
-        dispatch({ type: LOGOUT });
+        dispatch(logoutSuccess());
       }
     })
-    .catch(() => dispatch({ type: LOGOUT_FAILED }));
+    .catch(() => dispatch(logoutFailed()));
 };
 
 export const refreshToken = () => (dispatch) => {
-  dispatch({ type: UPDATE_TOKEN_REQUEST });
+  dispatch(updateTokenRequest());
   api.updateToken()
     .then((res) => {
       if (res.success) {
         setCookie('token', res.accessToken, { expires: 1200 });
         localStorage.setItem('jwt', res.refreshToken);
-        dispatch({
-          type: UPDATE_TOKEN,
-          user: res.user,
-        });
+        dispatch(updateTokenSuccess(res.user));
       }
     })
-    .catch(() => dispatch({ type: UPDATE_TOKEN_FAILED }));
+    .catch(() => dispatch(updateTokenFailed()));
 };
 
 export const getUser = () => (dispatch) => {
-  dispatch({ type: GET_USER_REQUEST });
+  dispatch(getUserRequest());
   api.getUserInfo()
     .then((res) => {
-      dispatch({
-        type: GET_USER,
-        user: res.user,
-      });
+      dispatch(getUserSuccess(res.user));
     })
     .catch(() => {
       if (localStorage.getItem('jwt')) {
         dispatch(refreshToken());
         api.getUserInfo()
           .then((res) => {
-            dispatch({
-              type: GET_USER,
-              user: res.user,
-            });
+            dispatch(getUserSuccess(res.user));
           });
       } else {
-        dispatch({ type: GET_USER_FAILED });
+        dispatch(getUserFailed());
       }
     });
 };
 
 export const updateUser = (data) => (dispatch) => {
-  dispatch({ type: UPDATE_USER_REQUEST });
+  dispatch(updateUserRequest());
   api.updateUserInfo(data)
     .then((res) => {
-      dispatch({
-        type: UPDATE_USER,
-        user: res.user,
-      });
+      dispatch(updateUserSuccess(res.user));
     })
     .catch(() => {
       if (localStorage.getItem('jwt')) {
         dispatch(refreshToken());
         dispatch(updateUser(data));
       } else {
-        dispatch({ type: UPDATE_USER_FAILED });
+        dispatch(updateUserFailed());
       }
     });
 };
 
 export const requestResetCode = (email) => (dispatch) => {
-  dispatch({ type: REQUEST_CODE_REQUEST });
+  dispatch(requestCodeRequest());
   api.requestCode(email)
     .then(() => {
-      dispatch({ type: REQUEST_CODE });
+      dispatch(requestCodeSuccess());
     })
-    .catch(() => dispatch({ type: REQUEST_CODE_FAILED }));
+    .catch(() => dispatch(requestCodeFailed()));
 };
 
 export const resetPassword = (data) => (dispatch) => {
-  dispatch({ type: RESET_PASSWORD_REQUEST });
+  dispatch(resetPasswordRequest());
   api.resetPass(data)
     .then(() => {
-      dispatch({ type: RESET_PASSWORD });
+      dispatch(resetPasswordSuccess());
     })
-    .catch(() => dispatch({ type: RESET_PASSWORD_FAILED }));
+    .catch(() => dispatch(resetPasswordFailed()));
 };
