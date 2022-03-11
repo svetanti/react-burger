@@ -1,15 +1,22 @@
+/* eslint-disable default-param-last */
+import { TIngredient } from '../../types/types';
+import { TActions } from '../actions';
 import {
   ADD_INGREDIENT,
   CLEAR_CURRENT_BURGER,
   DELETE_INGREDIENT,
   MOVE_CONSTRUCTOR_ELEMENT,
-} from '../actions/actions';
+} from '../constants';
 
-const initialState = {
+type TInitialState = {
+  currentBurger: ReadonlyArray<TIngredient>
+}
+
+const initialState: TInitialState = {
   currentBurger: [],
 };
 
-const currentBurgerReducer = (state = initialState, action = {}) => {
+const currentBurgerReducer = (state = initialState, action: TActions) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       return {

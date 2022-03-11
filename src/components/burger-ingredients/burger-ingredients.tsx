@@ -1,9 +1,8 @@
 import React, { FC, useRef } from 'react';
-import { useSelector } from 'react-redux';
 import { Tab, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useSelector } from '../../hooks';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import BurgerIngredientsBlock from '../burger-ingridients-block/burger-ingridients-block';
-import { TRootState } from '../../services/reducers';
 import { TIngredient } from '../../types/types';
 
 type TBurgerIngredients = {
@@ -16,7 +15,7 @@ type TBurgerIngredients = {
 const BurgerIngredients:FC<TBurgerIngredients> = ({
   onOpenConstructor, isTablet, onIngredientAdd, onOpenIngredientDetails,
 }) => {
-  const { currentBurger } = useSelector((store: TRootState) => store.currentBurgerReducer);
+  const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
   const totalPrice = currentBurger.length
     ? currentBurger.reduce((prev: number, cur: TIngredient) => (cur.type !== 'bun' ? prev + cur.price : prev + cur.price * 2), 0)
     : 0;

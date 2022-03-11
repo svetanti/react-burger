@@ -10,7 +10,7 @@ type TConstructorPageProps = {
   onIngredientAdd: (el: TIngredient) => void;
   isTablet: boolean;
   isConstructorOpened: boolean;
-  onOrder: (order: Array<TIngredient>) => void;
+  onOrder: (order: ReadonlyArray<TIngredient>) => void;
   onCloseConstructor: () => void;
   onDropHandler: (item: TIngredient) => void;
   onMove: (dragIndex: any, hoverIndex: any) => void;

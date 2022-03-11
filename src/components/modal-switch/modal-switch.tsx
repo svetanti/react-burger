@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import {
   Route, useLocation, useHistory,
 } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../hooks';
 import Modal from '../modal/modal';
 import ProtectedRoute from '../protected-route/protected-route';
 import IngredientDetails from '../ingredient-details/ingredient-details';

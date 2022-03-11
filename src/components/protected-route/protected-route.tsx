@@ -1,11 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { FC } from 'react';
 import { Route, Redirect, RouteProps } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { TRootState } from '../../services/reducers';
+import { useSelector } from '../../hooks';
 
 const ProtectedRoute:FC<RouteProps> = ({ children, ...rest }) => {
-  const { isAuth } = useSelector((store: TRootState) => store.authReducer);
+  const { isAuth } = useSelector((store) => store.authReducer);
 
   return (
     <Route

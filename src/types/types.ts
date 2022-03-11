@@ -14,6 +14,10 @@ export type TIngredient = {
     uuid?: string
   };
 
+export type TOrder = {
+    number: number
+  };
+
 export type TProfileForm = {
     name: string;
     email: string;
@@ -45,7 +49,12 @@ export type TLocation = {
   };
 
 export type TrequestOptions = {
-  method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE',
-  headers: THeaders
-  body?: string,
+  method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
+  headers: THeaders;
+  body?: string;
+};
+
+export type TUser = {
+  name: string;
+  email: string;
 };

@@ -1,5 +1,8 @@
-import { LOGIN_USER, REGISTER_USER } from '../actions';
+/* eslint-disable default-param-last */
+import { TActions } from '../actions';
 import {
+  LOGIN_USER,
+  REGISTER_USER,
   GET_USER,
   GET_USER_REQUEST,
   GET_USER_FAILED,
@@ -22,9 +25,33 @@ import {
   UPDATE_TOKEN,
   UPDATE_TOKEN_REQUEST,
   UPDATE_TOKEN_FAILED,
-} from '../actions/auth-actions';
+} from '../constants';
 
-const initialState = {
+type TInitialState = {
+  user: {
+    name: string,
+    email: string,
+  };
+  isRegisterRequest: boolean;
+  isRegisterFailed: boolean;
+  isLoginRequest: boolean;
+  isLoginFailed: boolean;
+  isGetUserRequest: boolean;
+  isGetUserFailed: boolean;
+  isUpdateUserRequest: boolean;
+  isUpdateUserFailed: boolean;
+  isLogoutRequest: boolean;
+  isLogoutFailed: boolean;
+  isCodeRequest: boolean;
+  isCodeRequestFailed: boolean;
+  isResetRequest: boolean;
+  isResetFailed: boolean;
+  isTokenRequest: boolean;
+  isTokenFailed: boolean;
+  isAuth: boolean;
+}
+
+const initialState: TInitialState = {
   user: {
     name: '',
     email: '',
@@ -48,7 +75,7 @@ const initialState = {
   isAuth: false,
 };
 
-const authReducer = (state = initialState, action = {}) => {
+const authReducer = (state = initialState, action: TActions) => {
   switch (action.type) {
     case (REGISTER_USER): {
       return {

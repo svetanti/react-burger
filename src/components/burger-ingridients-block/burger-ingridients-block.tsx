@@ -1,8 +1,7 @@
 import React, { forwardRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../hooks';
 import burgerIngredientsStyles from '../burger-ingredients/burger-ingredients.module.css';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
-import { TRootState } from '../../services/reducers';
 import { TIngredient } from '../../types/types';
 
 type TBurgerIngredientsBlockProps = {
@@ -19,7 +18,7 @@ const BurgerIngredientsBlock = forwardRef<
       onClick(el);
     };
 
-    const { ingredients } = useSelector((store: TRootState) => store.ingredientsReducer);
+    const { ingredients } = useSelector((store) => store.ingredientsReducer);
 
     return (
       <li ref={ref}>
