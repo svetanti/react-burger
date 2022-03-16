@@ -2,7 +2,7 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from '../hooks';
-import { register } from '../services/actions/auth-actions';
+import { register } from '../utils/api';
 import styles from './login-page.module.css';
 
 const RegisterPage = () => {

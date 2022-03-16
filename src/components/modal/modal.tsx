@@ -7,11 +7,14 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 type TModalProps = {
   onClose: () => void;
   header: string;
+  headerStyle?: string;
 };
 
 const modalRoot = document.getElementById('react-modals') as HTMLElement;
 
-const Modal:FC<TModalProps> = ({ header, children, onClose }) => {
+const Modal:FC<TModalProps> = ({
+  header, children, headerStyle, onClose,
+}) => {
   useEffect(() => {
     function closeOnEsc(e: { key: string; }) {
       if (e.key === 'Escape' || e.key === 'Esc') {
@@ -30,7 +33,7 @@ const Modal:FC<TModalProps> = ({ header, children, onClose }) => {
       <ModalOverlay onClose={onClose} />
       <div className={modalStyles.wrapper}>
         <div className={modalStyles.header}>
-          <h3 className={modalStyles.title}>{header}</h3>
+          <h3 className={headerStyle || modalStyles.title}>{header}</h3>
           <CloseIcon type="primary" onClick={onClose} />
         </div>
         {children}

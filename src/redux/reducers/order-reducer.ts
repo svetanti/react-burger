@@ -1,4 +1,5 @@
 /* eslint-disable default-param-last */
+import { TOrder } from '../../types/types';
 import { TActions } from '../actions';
 import {
   GET_ORDER_SUCCESS,
@@ -8,13 +9,13 @@ import {
 } from '../constants';
 
 type TInitialState = {
-  number: number | undefined;
+  order: TOrder | null
   isOrderRequest: boolean;
   isOrderFaied: boolean;
 }
 
 const initialState: TInitialState = {
-  number: undefined,
+  order: null,
   isOrderRequest: false,
   isOrderFaied: false,
 };
@@ -30,7 +31,7 @@ const orderReducer = (state = initialState, action: TActions) => {
     case GET_ORDER_SUCCESS: {
       return {
         ...state,
-        number: action.number,
+        order: action.order,
         isOrderRequest: false,
         isOrderFaied: false,
       };
@@ -38,7 +39,7 @@ const orderReducer = (state = initialState, action: TActions) => {
     case GET_ORDER_FAILED: {
       return {
         ...state,
-        number: undefined,
+        order: null,
         isOrderRequest: false,
         isOrderFaied: true,
       };
@@ -46,7 +47,7 @@ const orderReducer = (state = initialState, action: TActions) => {
     case DELETE_ORDER_DATA: {
       return {
         ...state,
-        number: undefined,
+        order: null,
       };
     }
     default: {

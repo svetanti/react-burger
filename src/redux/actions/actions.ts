@@ -1,4 +1,4 @@
-import { TIngredient } from '../../types/types';
+import { TIngredient, TOrder } from '../../types/types';
 import * as api from '../../utils/api';
 import {
   ADD_INGREDIENT_DATA,
@@ -55,7 +55,7 @@ export interface IGetOrderRequest {
 }
 export interface IGetOrderSuccess {
   readonly type: typeof GET_ORDER_SUCCESS;
-  readonly number: number
+  readonly order: TOrder
 }
 export interface IGetOrderFailed {
   readonly type: typeof GET_ORDER_FAILED;
@@ -85,8 +85,8 @@ const getIngredientsSuccess = (ingredients: Array<TIngredient>): IGetIngredients
 );
 const getIngredientsFailed = (): IGetIngredientsFailed => ({ type: GET_INGREDIENTS_FAILED });
 const getOrderRequest = (): IGetOrderRequest => ({ type: GET_ORDER_REQUEST });
-const getOrderSuccess = (number: number): IGetOrderSuccess => ({
-  type: GET_ORDER_SUCCESS, number,
+const getOrderSuccess = (order: TOrder): IGetOrderSuccess => ({
+  type: GET_ORDER_SUCCESS, order,
 });
 const getOrderFailed = (): IGetOrderFailed => ({ type: GET_ORDER_FAILED });
 const clearCurrentBurger = (): IClearCurrentBurger => ({ type: CLEAR_CURRENT_BURGER });
@@ -100,8 +100,8 @@ export const getIngredients: AppThunk = () => (dispatch: AppDispatch) => {
 
 export const getOrder: AppThunk = (orderData) => (dispatch: AppDispatch) => {
   dispatch(getOrderRequest());
-  api.sendOrder(orderData).then((data) => {
-    dispatch(getOrderSuccess(data.order));
+  api.sendOrder(orderData).then((order) => {
+    dispatch(getOrderSuccess(order));
     dispatch(clearCurrentBurger());
   })
     .catch(() => dispatch(getOrderFailed()));

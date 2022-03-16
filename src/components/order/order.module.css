@@ -1,0 +1,96 @@
+.container {
+  composes: pt-5 pb-10 pr-10 pl-10 from global;
+  max-width: 720px;
+  max-height: 620px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  composes: text text_type_main-medium from global;
+}
+
+.status {
+  composes: text text_type_main-default mt-2 mb-15 from global;
+  color: #00cccc;
+}
+
+.list {
+  composes: mt-6 mb-10 from global;
+  max-height: 220px;
+  list-style: none;
+  padding: 0;
+  overflow-y: scroll;
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.list::-webkit-scrollbar-track {
+  background-color: #2f2f37;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+  height: 80%;
+}
+
+.item {
+  composes: mb-4 from global;
+  display: flex;
+  align-items: center;
+}
+
+.item:last-child {
+  margin: 0;
+}
+
+.imgWrapper {
+  composes: mr-4 from global;
+  display: flex;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%);
+  box-sizing: border-box;
+}
+
+.img {
+  width: 62px;
+  height: 62px;
+  margin: auto;
+  border-radius: 50%;
+  background-color: #000;
+  object-fit: cover;
+}
+
+.text {
+  composes: text text_type_main-default from global;
+}
+
+.price {
+  composes: text text_type_digits-default from global;
+  margin: 0 25px 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.price svg {
+  margin-left: 9px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.date {
+  composes: text text_type_main-default text_color_inactive from global;
+}
+
+.footer .price {
+  margin: 0;
+}

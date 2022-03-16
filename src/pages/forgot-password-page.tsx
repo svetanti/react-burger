@@ -3,7 +3,7 @@ import { Link, Redirect, useHistory } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from '../hooks';
 import styles from './login-page.module.css';
-import { requestResetCode } from '../services/actions/auth-actions';
+import { requestResetCode } from '../redux/actions/auth-actions';
 
 const ForgotPasswordPage = () => {
   const { isAuth } = useSelector((store) => store.authReducer);

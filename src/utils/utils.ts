@@ -1,4 +1,4 @@
-import { TrequestOptions } from '../types/types';
+import { TIngredient, TrequestOptions } from '../types/types';
 
 export function on<T extends Window | Document | HTMLElement | EventTarget>(
   obj: T | null,
@@ -63,3 +63,26 @@ export const makeRequest = (url: string, oprions?: TrequestOptions) => fetch(url
     }
     return res.json();
   });
+
+export const formatDate = (stringDate: string) => {
+  const date = new Date(stringDate);
+  return date.toLocaleString('ru-RU', {
+    weekday: 'long',
+    hour: 'numeric',
+    minute: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
+export const countDuplicates = (arr: Array<TIngredient>): Array<TIngredient> => {
+  const res = {} as any;
+  arr.forEach((obj) => {
+    const key = `${obj._id}`;
+    if (!res[key]) {
+      res[key] = { ...obj, count: 0 };
+    }
+    res[key].count += 1;
+  });
+  return Object.values(res);
+};

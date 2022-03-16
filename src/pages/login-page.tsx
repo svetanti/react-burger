@@ -3,7 +3,7 @@ import { Link, Redirect, useLocation } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from '../hooks';
 import styles from './login-page.module.css';
-import { login } from '../services/actions/auth-actions';
+import { login } from '../redux/actions/auth-actions';
 
 const LoginPage = () => {
   const { isAuth } = useSelector((store) => store.authReducer);

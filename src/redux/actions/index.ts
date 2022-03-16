@@ -39,6 +39,18 @@ import {
   IResetPasswordSuccess,
   IResetPasswordFailed,
 } from './auth-actions';
+import {
+  IWsConnectionSuccess,
+  IWsConnectionError,
+  IWsConnectionClosed,
+  IWsGetOrders,
+  IWsConnectionSuccessUser,
+  IWsConnectionErrorUser,
+  IWsConnectionClosedUser,
+  IWsGetOrdersUser,
+  IWsConnectionStart,
+  IWsConnectionStartUser,
+} from './ws-actions';
 
 export type TActions =
   | IAddIngredientData
@@ -78,3 +90,13 @@ export type TActions =
   | IResetPasswordRequest
   | IResetPasswordSuccess
   | IResetPasswordFailed
+  | IWsConnectionStart
+  | IWsConnectionSuccess
+  | IWsConnectionError
+  | IWsConnectionClosed
+  | IWsGetOrders
+  | IWsConnectionStartUser
+  | IWsConnectionSuccessUser
+  | IWsConnectionErrorUser
+  | IWsConnectionClosedUser
+  | IWsGetOrdersUser
