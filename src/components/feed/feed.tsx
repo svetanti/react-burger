@@ -1,37 +1,53 @@
 import React, { FC, useEffect, useMemo } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from '../../hooks';
-import { wsConnectionStart } from '../../redux/actions/ws-actions';
+import { wsConnectionStart, wsConnectionStartUser } from '../../redux/actions/ws-actions';
 import FeedItem from '../feed-item/feed-item';
 import styles from './feed.module.css';
 
 const Feed: FC = () => {
   const dispatch = useDispatch();
-  const { orders } = useSelector((store) => store.wsReducer);
+  const { orders, userOrders } = useSelector((store) => store.wsReducer);
+  const isUserOrders = useRouteMatch({
+    path: '/profile/orders/',
+  });
 
   useEffect(
     () => {
-      dispatch(wsConnectionStart());
+      dispatch(isUserOrders ? wsConnectionStartUser() : wsConnectionStart());
     },
     [],
   );
 
-  const content = useMemo(
-    () => orders.map((item) => (
-      <FeedItem
-        key={`${item._id}_${uuidv4()}`}
-        number={item.number}
-        createdAt={item.createdAt}
-        name={item.name}
-        ingredientsIds={item.ingredients}
-      />
-    )),
-    [orders],
-  );
+  const content = isUserOrders
+    ? useMemo(
+      () => userOrders.map((item) => (
+        <FeedItem
+          key={`${item._id}_${uuidv4()}`}
+          number={item.number}
+          createdAt={item.createdAt}
+          name={item.name}
+          ingredientsIds={item.ingredients}
+        />
+      )),
+      [userOrders],
+    )
+    : useMemo(
+      () => orders.map((item) => (
+        <FeedItem
+          key={`${item._id}_${uuidv4()}`}
+          number={item.number}
+          createdAt={item.createdAt}
+          name={item.name}
+          ingredientsIds={item.ingredients}
+        />
+      )),
+      [orders],
+    );
 
   return (
     <section className={styles.container}>
-      <h1 className={styles.title}>Лента заказов</h1>
       <ul className={styles.list}>
         {content}
       </ul>

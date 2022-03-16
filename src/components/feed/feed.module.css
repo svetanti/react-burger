@@ -1,15 +1,11 @@
 .container {
   composes: container from "../burger-ingredients/burger-ingredients.module.css";
+  padding: 0;
   align-items: flex-end;
-  margin-right: auto;
-}
-
-.title {
-  composes: text text_type_main-large text_color_primary mb-5 from global;
   margin-right: auto;
 }
 
 .list {
   composes: list from "../burger-constructor/burger-constructor.module.css";
-  max-width: 600px;
+  margin-top: 0;
 }

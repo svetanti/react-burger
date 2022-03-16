@@ -32,7 +32,8 @@ const socketMiddleware = (wsUrl: string, wsActions: TWsActions | TWsActionsUser)
       socket.onmessage = (event) => {
         const { data } = event;
         const parsedData = JSON.parse(data);
-        dispatch({ type: onOrders, payload: parsedData.orders });
+        console.log(event);
+        dispatch({ type: onOrders, payload: parsedData });
       };
 
       socket.onclose = (event) => {

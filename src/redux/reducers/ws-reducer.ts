@@ -14,13 +14,17 @@ import {
 
 type TInitialState = {
   wsConnected: boolean;
-  orders: Array<TOrder>,
+  orders: Array<TOrder>;
+  total: number;
+  totalToday: number;
   userOrders: Array<TOrder>
 };
 
 const initialState: TInitialState = {
   wsConnected: false,
   orders: [],
+  total: 0,
+  totalToday: 0,
   userOrders: [],
 };
 const wsReducer = (state = initialState, action: TActions) => {
@@ -43,7 +47,9 @@ const wsReducer = (state = initialState, action: TActions) => {
     case WS_GET_ORDERS:
       return {
         ...state,
-        orders: action.payload,
+        orders: action.payload.orders,
+        total: action.payload.total,
+        totalToday: action.payload.totalToday,
       };
     case WS_CONNECTION_SUCCESS_USER:
       return {
@@ -61,9 +67,10 @@ const wsReducer = (state = initialState, action: TActions) => {
         wsConnected: false,
       };
     case WS_GET_ORDERS_USER:
+      console.log(action);
       return {
         ...state,
-        userOrders: action.payload,
+        userOrders: action.payload.orders,
       };
     default:
       return state;

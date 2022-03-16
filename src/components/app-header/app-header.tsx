@@ -31,7 +31,7 @@ const AppHeader:FC<TAppHeaderProps> = ({ isMenuOpen, isTablet }) => (
                 <BurgerIcon type="secondary" />
                 <span>Конструктор</span>
               </NavLink>
-              <NavLink exact to="/orders" className={headerStyles.link} activeClassName={headerStyles.linkActive}>
+              <NavLink exact to="/feed" className={headerStyles.link} activeClassName={headerStyles.linkActive}>
                 <ListIcon type="secondary" />
                 <span>Лента заказов</span>
               </NavLink>
