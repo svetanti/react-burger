@@ -12,6 +12,7 @@ const Feed: FC = () => {
   const isUserOrders = useRouteMatch({
     path: '/profile/orders/',
   });
+  const currentOrders = isUserOrders ? [...userOrders].reverse() : orders;
 
   useEffect(
     () => {
@@ -20,31 +21,20 @@ const Feed: FC = () => {
     [],
   );
 
-  const content = isUserOrders
-    ? useMemo(
-      () => userOrders.map((item) => (
-        <FeedItem
-          key={`${item._id}_${uuidv4()}`}
-          number={item.number}
-          createdAt={item.createdAt}
-          name={item.name}
-          ingredientsIds={item.ingredients}
-        />
-      )),
-      [userOrders],
-    )
-    : useMemo(
-      () => orders.map((item) => (
-        <FeedItem
-          key={`${item._id}_${uuidv4()}`}
-          number={item.number}
-          createdAt={item.createdAt}
-          name={item.name}
-          ingredientsIds={item.ingredients}
-        />
-      )),
-      [orders],
-    );
+  const content = useMemo(
+    () => currentOrders.map((item) => (
+      <FeedItem
+        isUserOrders={isUserOrders}
+        key={`${item._id}_${uuidv4()}`}
+        number={item.number}
+        status={item.status}
+        createdAt={item.createdAt}
+        name={item.name}
+        ingredientsIds={item.ingredients}
+      />
+    )),
+    [currentOrders],
+  );
 
   return (
     <section className={styles.container}>

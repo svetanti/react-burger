@@ -13,7 +13,7 @@ import {
   WS_CONNECTION_CLOSED_USER,
   WS_CONNECTION_ERROR_USER,
   WS_GET_ORDERS_USER,
-} from './actions/ws-actions';
+} from './constants';
 import { WS_FEED_URL, WS_USER_ORDERS_URL } from '../constants/constants';
 
 export type TWsActions = {

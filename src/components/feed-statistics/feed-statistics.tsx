@@ -18,7 +18,9 @@ const FeedStatistics: FC = () => {
         <div className={styles.ordersBlock}>
           <h2 className={styles.text}>В работе:</h2>
           <ul className={styles.list}>
-            {inProgress.map((el) => <li key={el._id}>{el.number}</li>)}
+            {inProgress.map(
+              (el) => <li className={styles.inProgress} key={el._id}>{el.number}</li>,
+            )}
           </ul>
         </div>
       </div>

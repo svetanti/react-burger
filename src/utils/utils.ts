@@ -93,3 +93,11 @@ export const countDuplicates = (arr: Array<TIngredient>): Array<TIngredient> => 
   });
   return Object.values(res);
 };
+
+export const formatStatus = (status: string): string => {
+  if (status === 'done') {
+    return 'Выполнен';
+  } if (status === 'pending') {
+    return 'Готовится';
+  } return 'Создан';
+};

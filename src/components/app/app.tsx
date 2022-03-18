@@ -126,7 +126,7 @@ const App = () => {
 
   useEffect(() => {
     if (order?.number) {
-      history.push(`/profile/orders/${order.number}`, { background: location });
+      history.push(`/orders/${order.number}`, { background: location });
     }
   }, [order]);
 
@@ -163,7 +163,7 @@ const App = () => {
             <Route path="/ingredients/:id" exact>
               <IngredientDetails />
             </Route>
-            <Route path="/profile/orders/:orderNumber" exact>
+            <Route path="/orders/:orderNumber" exact>
               <OrderDetails />
             </Route>
             <Route path="/login" exact>
@@ -180,6 +180,9 @@ const App = () => {
             </Route>
             <ProtectedRoute path="/profile">
               <ProfilePage />
+            </ProtectedRoute>
+            <ProtectedRoute path="/profile/orders/:id" exact>
+              <Order />
             </ProtectedRoute>
             <Route>
               <NotFoundPage />

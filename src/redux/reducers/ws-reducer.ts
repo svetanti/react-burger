@@ -10,7 +10,7 @@ import {
   WS_CONNECTION_ERROR_USER,
   WS_CONNECTION_CLOSED_USER,
   WS_GET_ORDERS_USER,
-} from '../actions/ws-actions';
+} from '../constants';
 
 type TInitialState = {
   wsConnected: boolean;
@@ -67,7 +67,6 @@ const wsReducer = (state = initialState, action: TActions) => {
         wsConnected: false,
       };
     case WS_GET_ORDERS_USER:
-      console.log(action);
       return {
         ...state,
         userOrders: action.payload.orders,

@@ -75,7 +75,20 @@ const ModalSwitch:FC<TModalSwitchProps> = ({ children, headerText }) => {
       )}
       {background && (
       <ProtectedRoute
-        path="/profile/orders/:orderNumber"
+        path="/profile/orders/:id"
+      >
+        <Modal
+          onClose={closeOrder}
+          header={`#${orderNumber}`}
+          headerStyle="text text_type_digits-default"
+        >
+          <Order />
+        </Modal>
+      </ProtectedRoute>
+      )}
+      {background && (
+      <ProtectedRoute
+        path="/orders/:orderNumber"
       >
         <Modal onClose={closeOrderDetails} header={headerText}>
           <OrderDetails />

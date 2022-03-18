@@ -15,14 +15,16 @@ type TParams = {
 const Order:FC = () => {
   const dispatch = useDispatch();
   const { ingredients } = useSelector((store) => store.ingredientsReducer);
-  const { orders } = useSelector((store) => store.wsReducer);
+  const { orders, userOrders } = useSelector((store) => store.wsReducer);
   const isUserOrders = useRouteMatch({
     path: '/profile/orders/:id',
   });
   const { id } = useParams<TParams>();
   const order = orders && orders.find((item) => item.number === +id);
+  const userOrder = userOrders && userOrders.find((item) => item.number === +id);
+  const currentOrder = isUserOrders ? userOrder : order;
   const orderIngredients = ingredients && countDuplicates(
-    ingredients.filter((item) => order?.ingredients.includes(item._id)),
+    ingredients.filter((item) => currentOrder?.ingredients.includes(item._id)),
   );
   const price = orderIngredients.reduce((acc, cur) => (
     cur.count ? acc + cur.price * cur.count : acc + cur.price), 0);
@@ -33,11 +35,11 @@ const Order:FC = () => {
 
   return (
     <div className={styles.container}>
-      { order
+      { currentOrder
       && (
       <>
-        <h2 className={styles.title}>{order.name}</h2>
-        <p className={styles.status}>{order.status === 'done' ? 'Выполнен' : order.status}</p>
+        <h2 className={styles.title}>{currentOrder.name}</h2>
+        <p className={styles.status}>{currentOrder.status === 'done' ? 'Выполнен' : currentOrder.status}</p>
         <p className={styles.title}>Состав:</p>
         <ul className={styles.list}>
           {orderIngredients.map((el) => (
@@ -62,7 +64,7 @@ const Order:FC = () => {
           ))}
         </ul>
         <div className={styles.footer}>
-          <p className={styles.date}>{formatDate(order.createdAt)}</p>
+          <p className={styles.date}>{formatDate(currentOrder.createdAt)}</p>
           <p className={styles.price}>
             {price}
             <CurrencyIcon type="primary" />
