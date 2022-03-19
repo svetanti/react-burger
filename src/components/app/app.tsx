@@ -77,7 +77,7 @@ const App = () => {
 
   const handleDrop = (item: TIngredient) => {
     if (item.type === 'bun') {
-      const bun = currentBurger.find((el: TIngredient) => el.type === 'bun');
+      const bun = currentBurger.find((el) => el.type === 'bun');
       const index = currentBurger.indexOf(bun as TIngredient);
       if (index !== -1) {
         dispatch(deleteIngredient(index));
@@ -160,6 +160,9 @@ const App = () => {
             <Route path="/feed/:id" exact>
               <Order />
             </Route>
+            <ProtectedRoute path="/profile/orders/:id" exact>
+              <Order />
+            </ProtectedRoute>
             <Route path="/ingredients/:id" exact>
               <IngredientDetails />
             </Route>
@@ -180,9 +183,6 @@ const App = () => {
             </Route>
             <ProtectedRoute path="/profile">
               <ProfilePage />
-            </ProtectedRoute>
-            <ProtectedRoute path="/profile/orders/:id" exact>
-              <Order />
             </ProtectedRoute>
             <Route>
               <NotFoundPage />

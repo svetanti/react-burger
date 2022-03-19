@@ -3,6 +3,8 @@ import React, { FC, useEffect } from 'react';
 import { useParams, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../hooks';
 import {
+  wsConnectionClosed,
+  wsConnectionClosedUser,
   wsConnectionStart, wsConnectionStartUser,
 } from '../../redux/actions/ws-actions';
 import { countDuplicates, formatDate } from '../../utils/utils';
@@ -31,6 +33,9 @@ const Order:FC = () => {
 
   useEffect(() => {
     dispatch(isUserOrders ? wsConnectionStartUser() : wsConnectionStart());
+    return () => {
+      dispatch(isUserOrders ? wsConnectionClosedUser() : wsConnectionClosed());
+    };
   }, []);
 
   return (

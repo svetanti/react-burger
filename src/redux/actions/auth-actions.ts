@@ -27,7 +27,7 @@ import {
   UPDATE_USER_FAILED,
   UPDATE_USER_REQUEST,
 } from '../constants';
-import { AppDispatch, AppThunk } from '../types';
+import { AppThunk } from '../types';
 
 export interface IRegisterUserRequest {
   readonly type: typeof REGISTER_USER_REQUEST;
@@ -132,7 +132,7 @@ const resetPasswordRequest = (): IResetPasswordRequest => ({ type: RESET_PASSWOR
 const resetPasswordSuccess = (): IResetPasswordSuccess => ({ type: RESET_PASSWORD });
 const resetPasswordFailed = (): IResetPasswordFailed => ({ type: RESET_PASSWORD_FAILED });
 
-export const register: AppThunk = (data) => (dispatch: AppDispatch) => {
+export const register: AppThunk = (data) => (dispatch) => {
   dispatch(registerUserRequest());
   api.register(data)
     .then((res) => {
@@ -145,7 +145,7 @@ export const register: AppThunk = (data) => (dispatch: AppDispatch) => {
     .catch(() => dispatch(registerUserFailed()));
 };
 
-export const login: AppThunk = (data) => (dispatch: AppDispatch) => {
+export const login: AppThunk = (data) => (dispatch) => {
   dispatch(loginUserRequest());
   api.signIn(data)
     .then((res) => {
@@ -158,7 +158,7 @@ export const login: AppThunk = (data) => (dispatch: AppDispatch) => {
     .catch(() => dispatch(loginUserFailed()));
 };
 
-export const logout: AppThunk = () => (dispatch: AppDispatch) => {
+export const logout: AppThunk = () => (dispatch) => {
   dispatch(logoutRequest());
   api.signOut()
     .then((res) => {
@@ -171,7 +171,7 @@ export const logout: AppThunk = () => (dispatch: AppDispatch) => {
     .catch(() => dispatch(logoutFailed()));
 };
 
-export const refreshToken: AppThunk = () => (dispatch: AppDispatch) => {
+export const refreshToken: AppThunk = () => (dispatch) => {
   dispatch(updateTokenRequest());
   api.updateToken()
     .then((res) => {
@@ -219,7 +219,7 @@ export const updateUser: AppThunk = (data) => (dispatch) => {
     });
 };
 
-export const requestResetCode: AppThunk = (email) => (dispatch: AppDispatch) => {
+export const requestResetCode: AppThunk = (email) => (dispatch) => {
   dispatch(requestCodeRequest());
   api.requestCode(email)
     .then(() => {
@@ -228,7 +228,7 @@ export const requestResetCode: AppThunk = (email) => (dispatch: AppDispatch) => 
     .catch(() => dispatch(requestCodeFailed()));
 };
 
-export const resetPassword: AppThunk = (data) => (dispatch: AppDispatch) => {
+export const resetPassword: AppThunk = (data) => (dispatch) => {
   dispatch(resetPasswordRequest());
   api.resetPass(data)
     .then(() => {

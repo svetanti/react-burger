@@ -48,7 +48,7 @@ type TInitialState = {
   isResetFailed: boolean;
   isTokenRequest: boolean;
   isTokenFailed: boolean;
-  isAuth: boolean;
+  isAuth: boolean | null;
 }
 
 const initialState: TInitialState = {
@@ -72,7 +72,7 @@ const initialState: TInitialState = {
   isResetFailed: false,
   isTokenRequest: false,
   isTokenFailed: false,
-  isAuth: false,
+  isAuth: null,
 };
 
 const authReducer = (state = initialState, action: TActions) => {

@@ -98,7 +98,7 @@ export const getIngredients: AppThunk = () => (dispatch: AppDispatch) => {
     .catch(() => dispatch(getIngredientsFailed()));
 };
 
-export const getOrder: AppThunk = (orderData) => (dispatch: AppDispatch) => {
+export const getOrder: AppThunk = (orderData) => (dispatch) => {
   dispatch(getOrderRequest());
   api.sendOrder(orderData).then((order) => {
     dispatch(getOrderSuccess(order));

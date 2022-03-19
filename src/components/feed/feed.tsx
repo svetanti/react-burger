@@ -2,7 +2,9 @@ import React, { FC, useEffect, useMemo } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from '../../hooks';
-import { wsConnectionStart, wsConnectionStartUser } from '../../redux/actions/ws-actions';
+import {
+  wsConnectionClosed, wsConnectionClosedUser, wsConnectionStart, wsConnectionStartUser,
+} from '../../redux/actions/ws-actions';
 import FeedItem from '../feed-item/feed-item';
 import styles from './feed.module.css';
 
@@ -17,6 +19,9 @@ const Feed: FC = () => {
   useEffect(
     () => {
       dispatch(isUserOrders ? wsConnectionStartUser() : wsConnectionStart());
+      return () => {
+        dispatch(isUserOrders ? wsConnectionClosedUser() : wsConnectionClosed());
+      };
     },
     [],
   );
