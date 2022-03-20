@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Link, Redirect, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDispatch, useSelector } from '../hooks';
 import styles from './login-page.module.css';
-import { login } from '../services/actions/auth-actions';
-import { TRootState } from '../services/reducers';
+import { login } from '../redux/actions/auth-actions';
 
 const LoginPage = () => {
-  const { isAuth } = useSelector((store: TRootState) => store.authReducer);
+  const { isAuth } = useSelector((store) => store.authReducer);
   const { state } = useLocation() as any;
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);

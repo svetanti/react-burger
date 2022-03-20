@@ -1,4 +1,4 @@
-import API_URL from '../constants/constants';
+import { API_URL } from '../constants/constants';
 import { TIngredient, TProfileForm } from '../types/types';
 import { getCookie, makeRequest } from './utils';
 

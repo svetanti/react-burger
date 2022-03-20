@@ -1,13 +1,20 @@
+/* eslint-disable default-param-last */
+import { TIngredient } from '../../types/types';
+import { TActions } from '../actions';
 import {
   ADD_INGREDIENT_DATA,
   DELETE_INGREDIENT_DATA,
-} from '../actions/actions';
+} from '../constants';
 
-const initialState = {
+type TInitialState = {
+  ingredient: TIngredient | {}
+}
+
+const initialState: TInitialState = {
   ingredient: {},
 };
 
-const ingredientReducer = (state = initialState, action = {}) => {
+const ingredientReducer = (state = initialState, action: TActions) => {
   switch (action.type) {
     case ADD_INGREDIENT_DATA: {
       return {

@@ -1,13 +1,12 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useHistory } from 'react-router-dom';
-import { resetPassword } from '../services/actions/auth-actions';
-import { TRootState } from '../services/reducers';
+import { useDispatch, useSelector } from '../hooks';
+import { resetPassword } from '../redux/actions/auth-actions';
 import styles from './login-page.module.css';
 
 const ResetPasswordPage = () => {
-  const { isAuth } = useSelector((store: TRootState) => store.authReducer);
+  const { isAuth } = useSelector((store) => store.authReducer);
   const dispatch = useDispatch();
   const history = useHistory() as any;
   const prevPathname = history.location.state?.prevPathname;

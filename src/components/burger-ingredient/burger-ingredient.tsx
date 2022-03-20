@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useSelector } from '../../hooks';
 import styles from '../burger-ingredients/burger-ingredients.module.css';
 import { TIngredient } from '../../types/types';
-import { TRootState } from '../../services/reducers';
 
 type TBurgerIngredientProps = {
   el: TIngredient;
@@ -20,7 +19,7 @@ const BurgerIngredient:FC<TBurgerIngredientProps> = ({ el, onClick }) => {
     type: 'ingredient',
     item: el,
   });
-  const { currentBurger } = useSelector((store: TRootState) => store.currentBurgerReducer);
+  const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
   const counter = currentBurger.filter((item: TIngredient) => item._id === el._id)?.length;
   return (
     <Link

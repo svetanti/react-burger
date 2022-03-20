@@ -1,19 +1,26 @@
+/* eslint-disable default-param-last */
+import { TOrder } from '../../types/types';
+import { TActions } from '../actions';
 import {
   GET_ORDER_SUCCESS,
   GET_ORDER_REQUEST,
-  GET_ORDER_ERROR,
+  GET_ORDER_FAILED,
   DELETE_ORDER_DATA,
-} from '../actions/actions';
+} from '../constants';
 
-const initialState = {
-  order: {
-    number: 0,
-  },
+type TInitialState = {
+  order: TOrder | null
+  isOrderRequest: boolean;
+  isOrderFaied: boolean;
+}
+
+const initialState: TInitialState = {
+  order: null,
   isOrderRequest: false,
   isOrderFaied: false,
 };
 
-const orderReducer = (state = initialState, action = {}) => {
+const orderReducer = (state = initialState, action: TActions) => {
   switch (action.type) {
     case GET_ORDER_REQUEST: {
       return {
@@ -29,12 +36,10 @@ const orderReducer = (state = initialState, action = {}) => {
         isOrderFaied: false,
       };
     }
-    case GET_ORDER_ERROR: {
+    case GET_ORDER_FAILED: {
       return {
         ...state,
-        order: {
-          number: 0,
-        },
+        order: null,
         isOrderRequest: false,
         isOrderFaied: true,
       };
@@ -42,9 +47,7 @@ const orderReducer = (state = initialState, action = {}) => {
     case DELETE_ORDER_DATA: {
       return {
         ...state,
-        order: {
-          number: 0,
-        },
+        order: null,
       };
     }
     default: {

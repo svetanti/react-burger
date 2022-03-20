@@ -1,4 +1,5 @@
-import { TrequestOptions } from '../types/types';
+import { DAYS_DECL } from '../constants/constants';
+import { TIngredient, TrequestOptions } from '../types/types';
 
 export function on<T extends Window | Document | HTMLElement | EventTarget>(
   obj: T | null,
@@ -63,3 +64,40 @@ export const makeRequest = (url: string, oprions?: TrequestOptions) => fetch(url
     }
     return res.json();
   });
+
+const declOfNum = (number: number, words: Array<string>) => words[
+  (number % 100 > 4 && number % 100 < 20)
+    ? 2
+    : [2, 0, 1, 1, 1, 2][(number % 10 < 5) ? Math.abs(number) % 10 : 5]];
+
+export const formatDate = (date: string) => {
+  const now = Date.now();
+  const createdAt = Date.parse(date);
+  const delta = (now - createdAt) / (24 * 60 * 60 * 1000);
+  if (delta < 1) {
+    return `Сегодня, ${date.slice(11, 16)} i-GMT+3`;
+  } if (delta < 2 && delta > 1) {
+    return `Вчера, ${date.slice(11, 16)} i-GMT+3`;
+  }
+  return `${Math.floor(delta)} ${declOfNum(Math.floor(delta), DAYS_DECL)} назад, ${date.slice(11, 16)} i-GMT+3`;
+};
+
+export const countDuplicates = (arr: Array<TIngredient>): Array<TIngredient> => {
+  const res = {} as any;
+  arr.forEach((obj) => {
+    const key = `${obj._id}`;
+    if (!res[key]) {
+      res[key] = { ...obj, count: 0 };
+    }
+    res[key].count += 1;
+  });
+  return Object.values(res);
+};
+
+export const formatStatus = (status: string): string => {
+  if (status === 'done') {
+    return 'Выполнен';
+  } if (status === 'pending') {
+    return 'Готовится';
+  } return 'Создан';
+};

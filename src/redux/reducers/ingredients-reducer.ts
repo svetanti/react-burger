@@ -1,16 +1,25 @@
+/* eslint-disable default-param-last */
+import { TIngredient } from '../../types/types';
+import { TActions } from '../actions';
 import {
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_REQUEST,
-  GET_INGREDIENTS_ERROR,
-} from '../actions/actions';
+  GET_INGREDIENTS_FAILED,
+} from '../constants';
 
-const initialState = {
+type TInitialState = {
+  ingredients: ReadonlyArray<TIngredient>;
+  ingredientsRequest: boolean;
+  ingredientsFaied: boolean;
+}
+
+const initialState: TInitialState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFaied: false,
 };
 
-const ingredientsReducer = (state = initialState, action = {}) => {
+const ingredientsReducer = (state = initialState, action: TActions) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
@@ -26,7 +35,7 @@ const ingredientsReducer = (state = initialState, action = {}) => {
         ingredientsFaied: false,
       };
     }
-    case GET_INGREDIENTS_ERROR: {
+    case GET_INGREDIENTS_FAILED: {
       return {
         ...state,
         ingredients: [],

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Link, Redirect, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDispatch, useSelector } from '../hooks';
 import styles from './login-page.module.css';
-import { requestResetCode } from '../services/actions/auth-actions';
-import { TRootState } from '../services/reducers';
+import { requestResetCode } from '../redux/actions/auth-actions';
 
 const ForgotPasswordPage = () => {
-  const { isAuth } = useSelector((store: TRootState) => store.authReducer);
+  const { isAuth } = useSelector((store) => store.authReducer);
   const dispatch = useDispatch();
   const history = useHistory();
   const [form, setValue] = useState({ email: '' });

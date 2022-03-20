@@ -1,18 +1,17 @@
 import React, { FC, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useDrop } from 'react-dnd';
 import {
   ConstructorElement, CurrencyIcon, Button, CloseIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useSelector } from '../../hooks';
 import styles from './burger-constructor.module.css';
 import BurgerConstructorMobile from '../burger-constructor-mobile/burger-constructor-mobile';
 import BurgerConstructorElement from '../burger-constructor-element/burger-constructor-element';
-import { TRootState } from '../../services/reducers';
 import { TIngredient } from '../../types/types';
 
 type TBurgerConstructorProps = {
-  onOrder: (order: Array<TIngredient>) => void;
+  onOrder: (order: ReadonlyArray<TIngredient>) => void;
   isTablet: boolean;
   onCloseConstructor: () => void;
   onDropHandler: (item: TIngredient) => void;
@@ -32,9 +31,9 @@ const BurgerConstructor:FC<TBurgerConstructorProps> = ({
 
   const history = useHistory();
 
-  const { currentBurger } = useSelector((store: TRootState) => store.currentBurgerReducer);
-  const { isOrderRequest } = useSelector((store: TRootState) => store.orderReducer);
-  const { isAuth } = useSelector((store: TRootState) => store.authReducer);
+  const { currentBurger } = useSelector((store) => store.currentBurgerReducer);
+  const { isOrderRequest } = useSelector((store) => store.orderReducer);
+  const { isAuth } = useSelector((store) => store.authReducer);
 
   const bun = currentBurger && currentBurger.find((item: TIngredient) => item.type === 'bun');
   const totalPrice = currentBurger.length

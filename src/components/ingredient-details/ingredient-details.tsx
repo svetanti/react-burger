@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { TRootState } from '../../services/reducers';
+import { useSelector } from '../../hooks';
 import { TIngredient } from '../../types/types';
 import ingredientDetailsStyles from './ingredient-details.module.css';
 
@@ -15,7 +14,7 @@ type TParams = {
 
 const IngredientDetails:FC<TIngredientDetailsProps> = () => {
   const { id } = useParams<TParams>();
-  const { ingredients } = useSelector((store: TRootState) => store.ingredientsReducer);
+  const { ingredients } = useSelector((store) => store.ingredientsReducer);
   const ingredient = ingredients.length && ingredients.find((item: TIngredient) => item._id === id);
 
   return (
