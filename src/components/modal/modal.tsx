@@ -31,10 +31,12 @@ const Modal:FC<TModalProps> = ({
   return ReactDOM.createPortal(
     <>
       <ModalOverlay onClose={onClose} />
-      <div className={modalStyles.wrapper}>
-        <div className={modalStyles.header}>
+      <div className={modalStyles.wrapper} id="modal">
+        <div className={modalStyles.header} id="modalHeader">
           <h3 className={headerStyle || modalStyles.title}>{header}</h3>
-          <CloseIcon type="primary" onClick={onClose} />
+          <span id="close">
+            <CloseIcon type="primary" onClick={onClose} />
+          </span>
         </div>
         {children}
       </div>

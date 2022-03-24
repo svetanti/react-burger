@@ -12,7 +12,7 @@ const OrderDetails:FC = () => {
 
   return (
     <div className={orderDetailsStyles.wrapper}>
-      <h2 className={orderDetailsStyles.number}>{orderNumber}</h2>
+      <h2 className={orderDetailsStyles.number} id="orderNumber">{orderNumber}</h2>
       <p className={orderDetailsStyles.subtitle}>идентификатор заказа</p>
       <Done />
       <p className={orderDetailsStyles.text}>Ваш заказ начали готовить</p>
