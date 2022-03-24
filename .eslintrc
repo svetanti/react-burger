@@ -1,8 +1,20 @@
 {
   "env": {
       "browser": true,
-      "es2021": true
+      "es2021": true,
+      "jest/globals": true
   },
+  "overrides": [
+    {
+      "files": [
+        "**/*.spec.ts",
+        "**/*.spec.tsx"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ],
   "extends": [
       "plugin:react/recommended",
       "airbnb"
@@ -17,7 +29,8 @@
   },
   "plugins": [
       "react",
-      "@typescript-eslint"
+      "@typescript-eslint",
+      "jest"
   ],
   "rules": {
     "no-extraneous-dependencies": "off",
@@ -60,5 +73,5 @@
             "moduleDirectory": ["node_modules", "src/"]
         }
     }
-}
+},
 }

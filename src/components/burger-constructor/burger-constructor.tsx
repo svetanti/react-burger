@@ -65,7 +65,7 @@ const BurgerConstructor:FC<TBurgerConstructorProps> = ({
   );
 
   return (
-    <section className={styles.container} ref={dropTarget}>
+    <section className={styles.container} ref={dropTarget} id="dropContainer">
       { isTablet
         ? (
           <>
