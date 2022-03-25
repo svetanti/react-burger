@@ -6,8 +6,6 @@ import { useSelector } from '../../hooks';
 const ProtectedRoute:FC<RouteProps> = ({ children, ...rest }) => {
   const { isAuth } = useSelector((store) => store.authReducer);
 
-  if (isAuth === null) return null;
-
   return (
     <Route
       {...rest}

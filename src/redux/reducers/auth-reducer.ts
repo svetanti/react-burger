@@ -27,7 +27,7 @@ import {
   UPDATE_TOKEN_FAILED,
 } from '../constants';
 
-type TInitialState = {
+export type TInitialState = {
   user: {
     name: string,
     email: string,
@@ -206,8 +206,8 @@ const authReducer = (state = initialState, action: TActions) => {
     case (RESET_PASSWORD): {
       return {
         ...state,
-        isCodeRequest: false,
-        isCodeRequestFailed: false,
+        isResetRequest: false,
+        isResetFailed: false,
       };
     }
     case (RESET_PASSWORD_REQUEST): {
